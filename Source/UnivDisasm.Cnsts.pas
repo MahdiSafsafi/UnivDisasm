@@ -265,11 +265,11 @@ const
   ENC_XOP = $09;
 
   { Mandatory Prefixes }
-  MND_PRF_NA = 0;
   MND_PRF_66 = 1;
   MND_PRF_F0 = 2;
   MND_PRF_F2 = 4;
   MND_PRF_F3 = 8;
+  MND_PRF_NA = $10;
 
   { Prefix flags }
   PF_USED = $01; // Prefix is used.

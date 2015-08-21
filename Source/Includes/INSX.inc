@@ -86,13 +86,6 @@ begin
 {$ENDIF NEED_DISPLAY}
 end;
 
-procedure Decode_INSX_PREFETCHx_M(PInst: PInstruction);
-begin
-  // PREFETCHx  M
-  DecodeModRm(PInst);
-  OpCodes_0x0F_0x0D_PREFETCH_Array[PInst^.ModRm.Value.Reg](PInst);
-end;
-
 procedure Decode_INSX_FEMMS_void(PInst: PInstruction);
 begin
   // FEMMS  void
@@ -197,19 +190,6 @@ begin
 {$ENDIF NEED_DISPLAY}
 end;
 
-procedure Decode_INSX_SMINT_void(PInst: PInstruction);
-begin
-  // SMINT  void
-  PInst^.InstGroups := INST_GRP_INSX;
-  PInst^.FlagsIndex := $00;
-  Decode_void(PInst);
-  PInst^.InstID := INST_ID_SMINT;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_SMINT);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
 procedure Decode_INSX_DMINT_void(PInst: PInstruction);
 begin
   // DMINT  void
@@ -219,32 +199,6 @@ begin
   PInst^.InstID := INST_ID_DMINT;
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_DMINT);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_INSX_RDM_void(PInst: PInstruction);
-begin
-  // RDM  void
-  PInst^.InstGroups := INST_GRP_INSX;
-  PInst^.FlagsIndex := $00;
-  Decode_void(PInst);
-  PInst^.InstID := INST_ID_RDM;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_RDM);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_INSX_BB0_RESET_void(PInst: PInstruction);
-begin
-  // BB0_RESET  void
-  PInst^.InstGroups := INST_GRP_INSX;
-  PInst^.FlagsIndex := $00;
-  Decode_void(PInst);
-  PInst^.InstID := INST_ID_BB0_RESET;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_BB0_RESET);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
 {$ENDIF NEED_DISPLAY}
 end;

@@ -21,6 +21,13 @@
 // *************************************************************************** //
 //
 
+procedure Decode_SSE_PREFETCHx_M(PInst: PInstruction);
+begin
+  // PREFETCHx  M
+  DecodeModRm(PInst);
+  OpCodes_0x0F_0x0D_PREFETCH_Array[PInst^.ModRm.Value.Reg](PInst);
+end;
+
 procedure Decode_SSE_MOVSS_Vo_Mo_d(PInst: PInstruction);
 begin
   // MOVSS  Vo,Mo.d

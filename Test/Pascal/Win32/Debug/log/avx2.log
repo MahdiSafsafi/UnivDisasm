@@ -1,7 +1,7 @@
 ---------------- Log Info --------------
 Total decoded instructions = 1572.
 Errors found = 0.
-Timing = 00:00:00.0518482
+Timing = 00:00:00.0436831
 -----------------------------------------
 
 ----------- Instructions Str ------------
@@ -1035,8 +1035,8 @@ TestID 1024      =  vpbroadcastb ymm6,xmm4                              :  vpbro
 TestID 1025      =  vpbroadcastb ymm4,byte [rcx]                        :  vpbroadcastb ymm4,byte [rcx]                      
 TestID 1026      =  vpbroadcastb ymm4,byte [rcx]                        :  vpbroadcastb ymm4,byte [rcx]                      
 TestID 1027      =  vbroadcastss xmm6,xmm4                              :  vbroadcastss xmm6,xmm4                            
-TestID 1028      =  vpmovmskb ecx,ymm4                                  :  vpmovmskb rcx,ymm4                                
-TestID 1029      =  vpmovmskb ecx,ymm4                                  :  vpmovmskb rcx,ymm4                                
+TestID 1028      =  vpmovmskb ecx,ymm4                                  :  vpmovmskb ecx,ymm4                                
+TestID 1029      =  vpmovmskb ecx,ymm4                                  :  vpmovmskb ecx,ymm4                                
 TestID 1030      =  vpslld ymm2,ymm6,0x7                                :  vpslld ymm2,ymm6,7                                
 TestID 1031      =  vpslldq ymm2,ymm6,0x7                               :  vpslldq ymm2,ymm6,7                               
 TestID 1032      =  vpsllq ymm2,ymm6,0x7                                :  vpsllq ymm2,ymm6,7                                
@@ -1255,8 +1255,8 @@ TestID 1244      =  vpmovsxbq ymm4,xmm4                                 :  vpmov
 TestID 1245      =  vpmovsxbq ymm4,dword [rcx]                          :  vpmovsxbq ymm4,dword [rcx]                        
 TestID 1246      =  vpmovzxbq ymm4,xmm4                                 :  vpmovzxbq ymm4,xmm4                               
 TestID 1247      =  vpmovzxbq ymm4,dword [rcx]                          :  vpmovzxbq ymm4,dword [rcx]                        
-TestID 1248      =  vpmovmskb ecx,ymm4                                  :  vpmovmskb rcx,ymm4                                
-TestID 1249      =  vpmovmskb ecx,ymm4                                  :  vpmovmskb rcx,ymm4                                
+TestID 1248      =  vpmovmskb ecx,ymm4                                  :  vpmovmskb ecx,ymm4                                
+TestID 1249      =  vpmovmskb ecx,ymm4                                  :  vpmovmskb ecx,ymm4                                
 TestID 1250      =  vpslld ymm2,ymm6,0x7                                :  vpslld ymm2,ymm6,7                                
 TestID 1251      =  vpslldq ymm2,ymm6,0x7                               :  vpslldq ymm2,ymm6,7                               
 TestID 1252      =  vpsllq ymm2,ymm6,0x7                                :  vpsllq ymm2,ymm6,7                                

@@ -21,38 +21,37 @@
 // *************************************************************************** //
 //
 
+procedure Decode_Gy_Ey_Id(PInst: PInstruction);
+begin
+  PInst^.nArg := $03;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeY;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeY shl 8) or
+    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
+  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg2.Size := PInst^.InternalData.OpSizeY;
+    DecodeArgAsMem(PInst, PInst^.Arg2);
+  end
+  else
+  begin
+    PInst^.Arg2.Size := PInst^.InternalData.OpSizeY;
+    PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeY shl 8) or
+      PInst^.ModRm.Value.Rm or PInst^.Fields.B);
+  end;
+  PInst^.Arg3.Flags := AF_IMM;
+  PInst^.Arg3.Size := SIZE_DWORD;
+  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_DWORD);
+end;
+
 procedure Decode_word_integer(PInst: PInstruction);
 begin
   PInst^.nArg := $01;
   PInst^.Arg1.Flags := AF_MEM;
   PInst^.Arg1.Size := SIZE_WORD;
   DecodeArgAsMem(PInst, PInst^.Arg1);
-  CheckOpSize(PInst, SIZE_WORD);
-end;
-
-procedure Decode_packed_BCD(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_TBYTE;
-  DecodeArgAsMem(PInst, PInst^.Arg1);
-end;
-
-procedure Decode_qword_integer(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_WORD;
-  DecodeArgAsMem(PInst, PInst^.Arg1);
-  CheckOpSize(PInst, SIZE_WORD);
-end;
-
-procedure Decode_AX(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := REG_AX;
   CheckOpSize(PInst, SIZE_WORD);
 end;
 
@@ -68,113 +67,93 @@ begin
   CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_ST_0_ST_1(PInst: PInstruction);
+procedure Decode_ST_1_ST_0(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
   PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST0;
+  PInst^.Arg1.Reg := REG_ST1;
   PInst^.Arg2.Flags := AF_REG;
   PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST1;
+  PInst^.Arg2.Reg := REG_ST0;
   CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_ST_0_ST_2(PInst: PInstruction);
+procedure Decode_ST_2_ST_0(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
   PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST0;
+  PInst^.Arg1.Reg := REG_ST2;
   PInst^.Arg2.Flags := AF_REG;
   PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST2;
+  PInst^.Arg2.Reg := REG_ST0;
   CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_ST_0_ST_3(PInst: PInstruction);
+procedure Decode_ST_3_ST_0(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
   PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST0;
+  PInst^.Arg1.Reg := REG_ST3;
   PInst^.Arg2.Flags := AF_REG;
   PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST3;
+  PInst^.Arg2.Reg := REG_ST0;
   CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_ST_0_ST_4(PInst: PInstruction);
+procedure Decode_ST_4_ST_0(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
   PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST0;
+  PInst^.Arg1.Reg := REG_ST4;
   PInst^.Arg2.Flags := AF_REG;
   PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST4;
+  PInst^.Arg2.Reg := REG_ST0;
   CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_ST_0_ST_5(PInst: PInstruction);
+procedure Decode_ST_5_ST_0(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
   PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST0;
+  PInst^.Arg1.Reg := REG_ST5;
   PInst^.Arg2.Flags := AF_REG;
   PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST5;
+  PInst^.Arg2.Reg := REG_ST0;
   CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_ST_0_ST_6(PInst: PInstruction);
+procedure Decode_ST_6_ST_0(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
   PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST0;
+  PInst^.Arg1.Reg := REG_ST6;
   PInst^.Arg2.Flags := AF_REG;
   PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST6;
+  PInst^.Arg2.Reg := REG_ST0;
   CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_ST_0_ST_7(PInst: PInstruction);
+procedure Decode_ST_7_ST_0(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
   PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST0;
+  PInst^.Arg1.Reg := REG_ST7;
   PInst^.Arg2.Flags := AF_REG;
   PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST7;
+  PInst^.Arg2.Reg := REG_ST0;
   CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_Vo_Wo_Ib(PInst: PInstruction);
+procedure Decode_void(PInst: PInstruction);
 begin
-  PInst^.nArg := $03;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_OWORD;
-  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
-  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg2.Size := SIZE_OWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg2);
-  end
-  else
-  begin
-    PInst^.Arg2.Size := SIZE_OWORD;
-    PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-  PInst^.Arg3.Flags := AF_IMM;
-  PInst^.Arg3.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
+  PInst^.nArg := $00;
 end;
 
 procedure Decode_Vx_Wx(PInst: PInstruction);
@@ -315,13 +294,172 @@ begin
   end;
 end;
 
-procedure Decode_single_real(PInst: PInstruction);
+procedure Decode_Vo_Ho_Wo_Lo(PInst: PInstruction);
 begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_DWORD;
-  DecodeArgAsMem(PInst, PInst^.Arg1);
-  CheckOpSize(PInst, SIZE_DWORD);
+  PInst^.nArg := $04;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_OWORD;
+  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_OWORD;
+  PInst^.Arg2.Reg := (REGS_XMM or PInst^.Fields.vvvv or PInst^.Fields.Vp);
+  PInst^.Arg3.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg3.Size := SIZE_OWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg3);
+  end
+  else
+  begin
+    PInst^.Arg3.Size := SIZE_OWORD;
+    PInst^.Arg3.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+  PInst^.Arg4.Flags := AF_REG;
+  DecodeArgAsImm(PInst, PInst^.Arg4, SIZE_BYTE);
+  PInst^.Arg4.Size := SIZE_OWORD;
+  PInst^.Arg4.Reg := (REGS_XMM or (Byte(PInst^.Arg4.Imm.Value and $F0)
+    shr $04));
+end;
+
+procedure Decode_Vx_Hx_Lx_Wx(PInst: PInstruction);
+begin
+  PInst^.nArg := $04;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.LowerVL;
+  PInst^.Arg1.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.LowerVL;
+  PInst^.Arg2.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.Fields.vvvv or
+    PInst^.Fields.Vp);
+  PInst^.Arg3.Flags := AF_REG;
+  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
+  PInst^.Arg3.Size := PInst^.LowerVL;
+  PInst^.Arg3.Reg := (VL2Regs(PInst^.LowerVL) or
+    (Byte(PInst^.Arg3.Imm.Value and $F0) shr $04));
+  PInst^.Arg4.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg4.Size := PInst^.LowerVL;
+    DecodeArgAsMem(PInst, PInst^.Arg4);
+  end
+  else
+  begin
+    PInst^.Arg4.Size := PInst^.LowerVL;
+    PInst^.Arg4.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+end;
+
+procedure Decode_Vx_Hx_Wx_Lx(PInst: PInstruction);
+begin
+  PInst^.nArg := $04;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.LowerVL;
+  PInst^.Arg1.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.LowerVL;
+  PInst^.Arg2.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.Fields.vvvv or
+    PInst^.Fields.Vp);
+  PInst^.Arg3.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg3.Size := PInst^.LowerVL;
+    DecodeArgAsMem(PInst, PInst^.Arg3);
+  end
+  else
+  begin
+    PInst^.Arg3.Size := PInst^.LowerVL;
+    PInst^.Arg3.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+  PInst^.Arg4.Flags := AF_REG;
+  DecodeArgAsImm(PInst, PInst^.Arg4, SIZE_BYTE);
+  PInst^.Arg4.Size := PInst^.LowerVL;
+  PInst^.Arg4.Reg := (VL2Regs(PInst^.LowerVL) or
+    (Byte(PInst^.Arg4.Imm.Value and $F0) shr $04));
+end;
+
+procedure Decode_Vo_Ho_Lo_Wo(PInst: PInstruction);
+begin
+  PInst^.nArg := $04;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_OWORD;
+  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_OWORD;
+  PInst^.Arg2.Reg := (REGS_XMM or PInst^.Fields.vvvv or PInst^.Fields.Vp);
+  PInst^.Arg3.Flags := AF_REG;
+  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
+  PInst^.Arg3.Size := SIZE_OWORD;
+  PInst^.Arg3.Reg := (REGS_XMM or (Byte(PInst^.Arg3.Imm.Value and $F0)
+    shr $04));
+  PInst^.Arg4.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg4.Size := SIZE_OWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg4);
+  end
+  else
+  begin
+    PInst^.Arg4.Size := SIZE_OWORD;
+    PInst^.Arg4.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+end;
+
+procedure Decode_Vo_Wo_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $03;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_OWORD;
+  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
+  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg2.Size := SIZE_OWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg2);
+  end
+  else
+  begin
+    PInst^.Arg2.Size := SIZE_OWORD;
+    PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+  PInst^.Arg3.Flags := AF_IMM;
+  PInst^.Arg3.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
+end;
+
+procedure Decode_Pq_Qq(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := (REGS_MMX or PInst^.ModRm.Value.Reg or PInst^.Fields.R);
+  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg2.Size := SIZE_QWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg2);
+  end
+  else
+  begin
+    PInst^.Arg2.Size := SIZE_QWORD;
+    PInst^.Arg2.Reg := (REGS_MMX or PInst^.ModRm.Value.Rm or PInst^.Fields.B);
+  end;
+  CheckOpSize(PInst, SIZE_QWORD);
 end;
 
 procedure Decode_Gv_Ew(PInst: PInstruction);
@@ -344,11 +482,6 @@ begin
     PInst^.Arg2.Reg := (REGS_GP or (SIZE_WORD shl 8) or PInst^.ModRm.Value.Rm or
       PInst^.Fields.B);
   end;
-end;
-
-procedure Decode_void(PInst: PInstruction);
-begin
-  PInst^.nArg := $00;
 end;
 
 procedure Decode_Vo_K_z_Mo_q(PInst: PInstruction);
@@ -2092,27 +2225,6 @@ begin
   end;
 end;
 
-procedure Decode_Pq_Qq(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := (REGS_MMX or PInst^.ModRm.Value.Reg or PInst^.Fields.R);
-  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg2.Size := SIZE_QWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg2);
-  end
-  else
-  begin
-    PInst^.Arg2.Size := SIZE_QWORD;
-    PInst^.Arg2.Reg := (REGS_MMX or PInst^.ModRm.Value.Rm or PInst^.Fields.B);
-  end;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
 procedure Decode_rK_K_Hn_Wn(PInst: PInstruction);
 begin
   PInst^.nArg := $03;
@@ -3538,24 +3650,6 @@ begin
   CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_M14_M28(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := Size14or28Sel[PInst^.Prefixes.OpSizePrf.Flags and
-    PF_USED];
-  DecodeArgAsMem(PInst, PInst^.Arg1);
-end;
-
-procedure Decode_Mw(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_WORD;
-  DecodeArgAsMem(PInst, PInst^.Arg1);
-  CheckOpSize(PInst, SIZE_WORD);
-end;
-
 procedure Decode_double_real(PInst: PInstruction);
 begin
   PInst^.nArg := $01;
@@ -3563,270 +3657,6 @@ begin
   PInst^.Arg1.Size := SIZE_QWORD;
   DecodeArgAsMem(PInst, PInst^.Arg1);
   CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_integer64(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  DecodeArgAsMem(PInst, PInst^.Arg1);
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_M98_M108(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := Size98or108Sel
-    [PInst^.Prefixes.OpSizePrf.Flags and PF_USED];
-  DecodeArgAsMem(PInst, PInst^.Arg1);
-end;
-
-procedure Decode_ST_0(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST0;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_1(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST1;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_2(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST2;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_3(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST3;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_4(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST4;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_5(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST5;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_6(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST6;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_7(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST7;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_1_ST_0(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST1;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST0;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_2_ST_0(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST2;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST0;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_3_ST_0(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST3;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST0;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_4_ST_0(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST4;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST0;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_5_ST_0(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST5;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST0;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_6_ST_0(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST6;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST0;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_ST_7_ST_0(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := REG_ST7;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_QWORD;
-  PInst^.Arg2.Reg := REG_ST0;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_Vd_Wd(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_DWORD;
-  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
-  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg2.Size := SIZE_DWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg2);
-  end
-  else
-  begin
-    PInst^.Arg2.Size := SIZE_DWORD;
-    PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-  CheckOpSize(PInst, SIZE_DWORD);
-end;
-
-procedure Decode_Vq_Wq(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_QWORD;
-  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
-  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg2.Size := SIZE_QWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg2);
-  end
-  else
-  begin
-    PInst^.Arg2.Size := SIZE_QWORD;
-    PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-  CheckOpSize(PInst, SIZE_QWORD);
-end;
-
-procedure Decode_Vo_Wq(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_OWORD;
-  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
-  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg2.Size := SIZE_QWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg2);
-  end
-  else
-  begin
-    PInst^.Arg2.Size := SIZE_QWORD;
-    PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-end;
-
-procedure Decode_Wq_Vo(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg1.Size := SIZE_QWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg1);
-  end
-  else
-  begin
-    PInst^.Arg1.Size := SIZE_QWORD;
-    PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_OWORD;
-  PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
 end;
 
 procedure Decode_dword_integer(PInst: PInstruction);
@@ -3838,1154 +3668,88 @@ begin
   CheckOpSize(PInst, SIZE_WORD);
 end;
 
-procedure Decode_extended_real(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_TBYTE;
-  DecodeArgAsMem(PInst, PInst^.Arg1);
-end;
-
-procedure Decode_AL_Ib(PInst: PInstruction);
+procedure Decode_ST_0_ST_1(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_AL;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_rAX_Iz(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeZ);
-end;
-
-procedure Decode_ES(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_SEG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := SEG_ES;
-  CheckOpSize(PInst, SIZE_WORD);
-end;
-
-procedure Decode_CS(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_SEG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := SEG_CS;
-  CheckOpSize(PInst, SIZE_WORD);
-end;
-
-procedure Decode_SS(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_SEG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := SEG_SS;
-  CheckOpSize(PInst, SIZE_WORD);
-end;
-
-procedure Decode_DS(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_SEG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := SEG_DS;
-  CheckOpSize(PInst, SIZE_WORD);
-end;
-
-procedure Decode_eAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_EAX);
-end;
-
-procedure Decode_eCX(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_ECX);
-end;
-
-procedure Decode_eDX(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_EDX);
-end;
-
-procedure Decode_eBX(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_EBX);
-end;
-
-procedure Decode_eSP(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_ESP);
-end;
-
-procedure Decode_eBP(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_EBP);
-end;
-
-procedure Decode_eSI(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_ESI);
-end;
-
-procedure Decode_eDI(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_EDI);
-end;
-
-procedure Decode_Gv_Ma(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
-  PInst^.Arg2.Flags := AF_MEM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ * 2;;
-  DecodeArgAsMem(PInst, PInst^.Arg2);
-end;
-
-procedure Decode_Gv_Ed(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
-  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg2.Size := SIZE_DWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg2);
-  end
-  else
-  begin
-    PInst^.Arg2.Size := SIZE_DWORD;
-    PInst^.Arg2.Reg := (REGS_GP or (SIZE_DWORD shl 8) or
-      PInst^.ModRm.Value.Rm or PInst^.Fields.B);
-  end;
-end;
-
-procedure Decode_Ew_Gw(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg1.Size := SIZE_WORD;
-    DecodeArgAsMem(PInst, PInst^.Arg1);
-  end
-  else
-  begin
-    PInst^.Arg1.Size := SIZE_WORD;
-    PInst^.Arg1.Reg := (REGS_GP or (SIZE_WORD shl 8) or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.B);
-  end;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST0;
   PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_WORD;
-  PInst^.Arg2.Reg := (REGS_GP or (SIZE_WORD shl 8) or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.R);
-  CheckOpSize(PInst, SIZE_WORD);
+  PInst^.Arg2.Size := SIZE_QWORD;
+  PInst^.Arg2.Reg := REG_ST1;
+  CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_Iz(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_IMM;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  DecodeArgAsImm(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeZ);
-end;
-
-procedure Decode_Gv_Ev_Iz(PInst: PInstruction);
-begin
-  PInst^.nArg := $03;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
-  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-    DecodeArgAsMem(PInst, PInst^.Arg2);
-  end
-  else
-  begin
-    PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-    PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-      PInst^.ModRm.Value.Rm or PInst^.Fields.B);
-  end;
-  PInst^.Arg3.Flags := AF_IMM;
-  PInst^.Arg3.Size := PInst^.InternalData.OpSizeZ;
-  DecodeArgAsImm(PInst, PInst^.Arg3, PInst^.InternalData.OpSizeZ);
-end;
-
-procedure Decode_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_IMM;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg1, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_Gv_Ev_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $03;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
-  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-    DecodeArgAsMem(PInst, PInst^.Arg2);
-  end
-  else
-  begin
-    PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-    PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-      PInst^.ModRm.Value.Rm or PInst^.Fields.B);
-  end;
-  PInst^.Arg3.Flags := AF_IMM;
-  PInst^.Arg3.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
-end;
-
-procedure Decode_Yb_DX(PInst: PInstruction);
+procedure Decode_ST_0_ST_2(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  DecodeArgAsMemY(PInst, PInst^.Arg1, SIZE_BYTE);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST0;
   PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_WORD;
-  PInst^.Arg2.Reg := REG_DX;
+  PInst^.Arg2.Size := SIZE_QWORD;
+  PInst^.Arg2.Reg := REG_ST2;
+  CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_Yz_DX(PInst: PInstruction);
+procedure Decode_ST_0_ST_3(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  DecodeArgAsMemY(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeZ);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST0;
   PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_WORD;
-  PInst^.Arg2.Reg := REG_DX;
+  PInst^.Arg2.Size := SIZE_QWORD;
+  PInst^.Arg2.Reg := REG_ST3;
+  CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_DX_Xb(PInst: PInstruction);
+procedure Decode_ST_0_ST_4(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := REG_DX;
-  PInst^.Arg2.Flags := AF_MEM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsMemX(PInst, PInst^.Arg2, SIZE_BYTE);
-end;
-
-procedure Decode_DX_Xz(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := REG_DX;
-  PInst^.Arg2.Flags := AF_MEM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ;
-  DecodeArgAsMemX(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeZ);
-end;
-
-procedure Decode_Jb(PInst: PInstruction);
-begin
-  PInst^.nArg := $01;
-  PInst^.Arg1.Flags := AF_RELATIVE_OFFSET;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  DecodeJ(PInst, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_Mw_Sw(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_WORD;
-  DecodeArgAsMem(PInst, PInst^.Arg1);
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST0;
   PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_WORD;
-  PInst^.Arg2.Reg := (REGS_SEG or PInst^.ModRm.Value.Reg);
-  CheckOpSize(PInst, SIZE_WORD);
-  CheckSeg(PInst);
+  PInst^.Arg2.Size := SIZE_QWORD;
+  PInst^.Arg2.Reg := REG_ST4;
+  CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_Rv_Sw(PInst: PInstruction);
+procedure Decode_ST_0_ST_5(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
-  DecodeModRm(PInst);
   PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    PInst^.ModRm.Value.Rm or PInst^.Fields.B);
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST0;
   PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_WORD;
-  PInst^.Arg2.Reg := (REGS_SEG or PInst^.ModRm.Value.Reg);
-  CheckSeg(PInst);
+  PInst^.Arg2.Size := SIZE_QWORD;
+  PInst^.Arg2.Reg := REG_ST5;
+  CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_Gv_M(PInst: PInstruction);
+procedure Decode_ST_0_ST_6(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
-  DecodeModRm(PInst);
   PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
-  PInst^.Arg2.Flags := AF_MEM;
-  PInst^.Arg2.Size := 0;
-  DecodeArgAsMem(PInst, PInst^.Arg2);
-end;
-
-procedure Decode_Sw_Mw(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := (REGS_SEG or PInst^.ModRm.Value.Reg);
-  PInst^.Arg2.Flags := AF_MEM;
-  PInst^.Arg2.Size := SIZE_WORD;
-  DecodeArgAsMem(PInst, PInst^.Arg2);
-  CheckOpSize(PInst, SIZE_WORD);
-  CheckSeg(PInst);
-end;
-
-procedure Decode_Sw_Rv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := (REGS_SEG or PInst^.ModRm.Value.Reg);
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST0;
   PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    PInst^.ModRm.Value.Rm or PInst^.Fields.B);
-  CheckSeg(PInst);
+  PInst^.Arg2.Size := SIZE_QWORD;
+  PInst^.Arg2.Reg := REG_ST6;
+  CheckOpSize(PInst, SIZE_QWORD);
 end;
 
-procedure Decode_rCX_rAX(PInst: PInstruction);
+procedure Decode_ST_0_ST_7(PInst: PInstruction);
 begin
   PInst^.nArg := $02;
   PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RCX);
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST0;
   PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_r9_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or RID_R9);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_rDX_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RDX);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_r10_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R10);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_rBX_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RBX);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_r11_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R11);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_rSP_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RSP);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_r12_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R12);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_rBP_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RBP);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_r13_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R13);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_rSI_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RSI);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_r14_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R14);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_rDI_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RDI);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_r15_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R15);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_AL_Ob(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_AL;
-  PInst^.Arg2.Flags := AF_OFFSET;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsOffset(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_rAX_Ov(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-  PInst^.Arg2.Flags := AF_OFFSET;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsOffset(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_Ob_AL(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_OFFSET;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  DecodeArgAsOffset(PInst, PInst^.Arg1, SIZE_BYTE);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  PInst^.Arg2.Reg := REG_AL;
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_Ov_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_OFFSET;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsOffset(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeV);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_Yb_Xb(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  DecodeArgAsMemY(PInst, PInst^.Arg1, SIZE_BYTE);
-  PInst^.Arg2.Flags := AF_MEM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsMemX(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_Yv_Xv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsMemY(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeV);
-  PInst^.Arg2.Flags := AF_MEM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsMemX(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_Yb_AL(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  DecodeArgAsMemY(PInst, PInst^.Arg1, SIZE_BYTE);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  PInst^.Arg2.Reg := REG_AL;
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_Yv_rAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_MEM;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsMemY(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeV);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-end;
-
-procedure Decode_AL_Xb(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_AL;
-  PInst^.Arg2.Flags := AF_MEM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsMemX(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_rAX_Xv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-  PInst^.Arg2.Flags := AF_MEM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsMemX(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_R8B_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_R8B;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_CL_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_CL;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_R9B_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_R9B;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_DL_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_DL;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_R10B_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_R10B;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_BL_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_BL;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_R11B_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_R11B;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_AH_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := (PInst^.InternalData.MagicRex or REG_AH);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_R12B_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_R12B;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_CH_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := (PInst^.InternalData.MagicRex or REG_CH);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_R13B_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_R13B;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_DH_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := (PInst^.InternalData.MagicRex or REG_DH);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_R14B_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_R14B;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_BH_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := (PInst^.InternalData.MagicRex or REG_BH);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_R15B_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_R15B;
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_rAX_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RAX);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_r8_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or RID_R8);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_rCX_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RCX);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_r9_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or RID_R9);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_rDX_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RDX);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_r10_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R10);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_rBX_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RBX);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_r11_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R11);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_rSP_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RSP);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_r12_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R12);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_rBP_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RBP);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_r13_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R13);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_rSI_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RSI);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_r14_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R14);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_rDI_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_RDI);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_r15_Iv(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
-    RID_R15);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
-  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
-end;
-
-procedure Decode_Iw_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_IMM;
-  PInst^.Arg1.Size := SIZE_WORD;
-  DecodeArgAsImm(PInst, PInst^.Arg1, SIZE_WORD);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-end;
-
-procedure Decode_eAX_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_EAX);
-  PInst^.Arg2.Flags := AF_IMM;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
-end;
-
-procedure Decode_Ib_AL(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_IMM;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg1, SIZE_BYTE);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  PInst^.Arg2.Reg := REG_AL;
-  CheckOpSize(PInst, SIZE_BYTE);
-end;
-
-procedure Decode_Ib_eAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_IMM;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg1, SIZE_BYTE);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_EAX);
-end;
-
-procedure Decode_AL_DX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_BYTE;
-  PInst^.Arg1.Reg := REG_AL;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_WORD;
-  PInst^.Arg2.Reg := REG_DX;
-end;
-
-procedure Decode_eAX_DX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_EAX);
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_WORD;
-  PInst^.Arg2.Reg := REG_DX;
-end;
-
-procedure Decode_DX_AL(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := REG_DX;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_BYTE;
-  PInst^.Arg2.Reg := REG_AL;
-end;
-
-procedure Decode_DX_eAX(PInst: PInstruction);
-begin
-  PInst^.nArg := $02;
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_WORD;
-  PInst^.Arg1.Reg := REG_DX;
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ;
-  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
-    RID_EAX);
+  PInst^.Arg2.Size := SIZE_QWORD;
+  PInst^.Arg2.Reg := REG_ST7;
+  CheckOpSize(PInst, SIZE_QWORD);
 end;
 
 procedure Decode_Vx_Hx_Wx(PInst: PInstruction);
@@ -6295,6 +5059,105 @@ begin
     PInst^.Fields.vvvv);
 end;
 
+procedure Decode_integer64(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  DecodeArgAsMem(PInst, PInst^.Arg1);
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_M98_M108(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := Size98or108Sel
+    [PInst^.Prefixes.OpSizePrf.Flags and PF_USED];
+  DecodeArgAsMem(PInst, PInst^.Arg1);
+end;
+
+procedure Decode_Mw(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_WORD;
+  DecodeArgAsMem(PInst, PInst^.Arg1);
+  CheckOpSize(PInst, SIZE_WORD);
+end;
+
+procedure Decode_ST_0(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST0;
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_ST_1(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST1;
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_ST_2(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST2;
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_ST_3(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST3;
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_ST_4(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST4;
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_ST_5(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST5;
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_ST_6(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST6;
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_ST_7(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := REG_ST7;
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
 procedure Decode_VDo_VDo_Vo_Wo(PInst: PInstruction);
 begin
   PInst^.nArg := $04;
@@ -6689,153 +5552,6 @@ begin
     PInst^.Fields.RRpExt());
 end;
 
-procedure Decode_Gy_Ey_Id(PInst: PInstruction);
-begin
-  PInst^.nArg := $03;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.InternalData.OpSizeY;
-  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeY shl 8) or
-    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
-  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg2.Size := PInst^.InternalData.OpSizeY;
-    DecodeArgAsMem(PInst, PInst^.Arg2);
-  end
-  else
-  begin
-    PInst^.Arg2.Size := PInst^.InternalData.OpSizeY;
-    PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeY shl 8) or
-      PInst^.ModRm.Value.Rm or PInst^.Fields.B);
-  end;
-  PInst^.Arg3.Flags := AF_IMM;
-  PInst^.Arg3.Size := SIZE_DWORD;
-  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_DWORD);
-end;
-
-procedure Decode_Vo_Ho_Wo_Lo(PInst: PInstruction);
-begin
-  PInst^.nArg := $04;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_OWORD;
-  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_OWORD;
-  PInst^.Arg2.Reg := (REGS_XMM or PInst^.Fields.vvvv or PInst^.Fields.Vp);
-  PInst^.Arg3.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg3.Size := SIZE_OWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg3);
-  end
-  else
-  begin
-    PInst^.Arg3.Size := SIZE_OWORD;
-    PInst^.Arg3.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-  PInst^.Arg4.Flags := AF_REG;
-  DecodeArgAsImm(PInst, PInst^.Arg4, SIZE_BYTE);
-  PInst^.Arg4.Size := SIZE_OWORD;
-  PInst^.Arg4.Reg := (REGS_XMM or (Byte(PInst^.Arg4.Imm.Value and $F0)
-    shr $04));
-end;
-
-procedure Decode_Vx_Hx_Lx_Wx(PInst: PInstruction);
-begin
-  PInst^.nArg := $04;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.LowerVL;
-  PInst^.Arg1.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.LowerVL;
-  PInst^.Arg2.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.Fields.vvvv or
-    PInst^.Fields.Vp);
-  PInst^.Arg3.Flags := AF_REG;
-  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
-  PInst^.Arg3.Size := PInst^.LowerVL;
-  PInst^.Arg3.Reg := (VL2Regs(PInst^.LowerVL) or
-    (Byte(PInst^.Arg3.Imm.Value and $F0) shr $04));
-  PInst^.Arg4.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg4.Size := PInst^.LowerVL;
-    DecodeArgAsMem(PInst, PInst^.Arg4);
-  end
-  else
-  begin
-    PInst^.Arg4.Size := PInst^.LowerVL;
-    PInst^.Arg4.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-end;
-
-procedure Decode_Vx_Hx_Wx_Lx(PInst: PInstruction);
-begin
-  PInst^.nArg := $04;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := PInst^.LowerVL;
-  PInst^.Arg1.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := PInst^.LowerVL;
-  PInst^.Arg2.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.Fields.vvvv or
-    PInst^.Fields.Vp);
-  PInst^.Arg3.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg3.Size := PInst^.LowerVL;
-    DecodeArgAsMem(PInst, PInst^.Arg3);
-  end
-  else
-  begin
-    PInst^.Arg3.Size := PInst^.LowerVL;
-    PInst^.Arg3.Reg := (VL2Regs(PInst^.LowerVL) or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-  PInst^.Arg4.Flags := AF_REG;
-  DecodeArgAsImm(PInst, PInst^.Arg4, SIZE_BYTE);
-  PInst^.Arg4.Size := PInst^.LowerVL;
-  PInst^.Arg4.Reg := (VL2Regs(PInst^.LowerVL) or
-    (Byte(PInst^.Arg4.Imm.Value and $F0) shr $04));
-end;
-
-procedure Decode_Vo_Ho_Lo_Wo(PInst: PInstruction);
-begin
-  PInst^.nArg := $04;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG;
-  PInst^.Arg1.Size := SIZE_OWORD;
-  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_OWORD;
-  PInst^.Arg2.Reg := (REGS_XMM or PInst^.Fields.vvvv or PInst^.Fields.Vp);
-  PInst^.Arg3.Flags := AF_REG;
-  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
-  PInst^.Arg3.Size := SIZE_OWORD;
-  PInst^.Arg3.Reg := (REGS_XMM or (Byte(PInst^.Arg3.Imm.Value and $F0)
-    shr $04));
-  PInst^.Arg4.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg4.Size := SIZE_OWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg4);
-  end
-  else
-  begin
-    PInst^.Arg4.Size := SIZE_OWORD;
-    PInst^.Arg4.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-end;
-
 procedure Decode_Vu_K_z_B64_Wu_Ib(PInst: PInstruction);
 begin
   PInst^.nArg := $03;
@@ -6998,6 +5714,36 @@ begin
   DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
 end;
 
+procedure Decode_Vo_K_z_Ho_Wo_d_sae_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $04;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG or PInst^.SupportFlag(AF_MASK) or
+    PInst^.SupportFlag(AF_ZEROING);
+  PInst^.Arg1.Size := SIZE_OWORD;
+  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_OWORD;
+  PInst^.Arg2.Reg := (REGS_XMM or PInst^.Fields.vvvv or PInst^.Fields.Vp);
+  PInst^.Arg3.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem] or
+    PInst^.SupportFlag(AF_SAE);
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg3.Size := SIZE_DWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg3);
+  end
+  else
+  begin
+    PInst^.Arg3.Size := SIZE_OWORD;
+    PInst^.Arg3.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+  PInst^.Arg4.Flags := AF_IMM;
+  PInst^.Arg4.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg4, SIZE_BYTE);
+end;
+
 procedure Decode_Vo_Ho_Wo_d_Ib(PInst: PInstruction);
 begin
   PInst^.nArg := $04;
@@ -7051,7 +5797,7 @@ begin
   DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
 end;
 
-procedure Decode_Vo_K_z_Ho_Wo_d_sae_Ib(PInst: PInstruction);
+procedure Decode_Vo_K_z_Ho_Wo_q_sae_Ib(PInst: PInstruction);
 begin
   PInst^.nArg := $04;
   DecodeModRm(PInst);
@@ -7067,7 +5813,7 @@ begin
     PInst^.SupportFlag(AF_SAE);
   if PInst^.ModRm.Value.IsMem then
   begin
-    PInst^.Arg3.Size := SIZE_DWORD;
+    PInst^.Arg3.Size := SIZE_QWORD;
     DecodeArgAsMem(PInst, PInst^.Arg3);
   end
   else
@@ -7132,36 +5878,6 @@ begin
   PInst^.Arg3.Flags := AF_IMM;
   PInst^.Arg3.Size := SIZE_BYTE;
   DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
-end;
-
-procedure Decode_Vo_K_z_Ho_Wo_q_sae_Ib(PInst: PInstruction);
-begin
-  PInst^.nArg := $04;
-  DecodeModRm(PInst);
-  PInst^.Arg1.Flags := AF_REG or PInst^.SupportFlag(AF_MASK) or
-    PInst^.SupportFlag(AF_ZEROING);
-  PInst^.Arg1.Size := SIZE_OWORD;
-  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
-    PInst^.Fields.RRpExt());
-  PInst^.Arg2.Flags := AF_REG;
-  PInst^.Arg2.Size := SIZE_OWORD;
-  PInst^.Arg2.Reg := (REGS_XMM or PInst^.Fields.vvvv or PInst^.Fields.Vp);
-  PInst^.Arg3.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem] or
-    PInst^.SupportFlag(AF_SAE);
-  if PInst^.ModRm.Value.IsMem then
-  begin
-    PInst^.Arg3.Size := SIZE_QWORD;
-    DecodeArgAsMem(PInst, PInst^.Arg3);
-  end
-  else
-  begin
-    PInst^.Arg3.Size := SIZE_OWORD;
-    PInst^.Arg3.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
-      PInst^.Fields.XBExt());
-  end;
-  PInst^.Arg4.Flags := AF_IMM;
-  PInst^.Arg4.Size := SIZE_BYTE;
-  DecodeArgAsImm(PInst, PInst^.Arg4, SIZE_BYTE);
 end;
 
 procedure Decode_Vn_K_z_Hn_Wn_Ib(PInst: PInstruction);
@@ -8211,6 +6927,58 @@ begin
   DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
 end;
 
+procedure Decode_extended_real(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_TBYTE;
+  DecodeArgAsMem(PInst, PInst^.Arg1);
+end;
+
+procedure Decode_packed_BCD(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_TBYTE;
+  DecodeArgAsMem(PInst, PInst^.Arg1);
+end;
+
+procedure Decode_qword_integer(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_WORD;
+  DecodeArgAsMem(PInst, PInst^.Arg1);
+  CheckOpSize(PInst, SIZE_WORD);
+end;
+
+procedure Decode_AX(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := REG_AX;
+  CheckOpSize(PInst, SIZE_WORD);
+end;
+
+procedure Decode_single_real(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_DWORD;
+  DecodeArgAsMem(PInst, PInst^.Arg1);
+  CheckOpSize(PInst, SIZE_DWORD);
+end;
+
+procedure Decode_M14_M28(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := Size14or28Sel[PInst^.Prefixes.OpSizePrf.Flags and
+    PF_USED];
+  DecodeArgAsMem(PInst, PInst^.Arg1);
+end;
+
 procedure Decode_VDd_Vd_Wd(PInst: PInstruction);
 begin
   PInst^.nArg := $03;
@@ -8261,6 +7029,1238 @@ begin
       PInst^.Fields.XBExt());
   end;
   CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_AL_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_AL;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_rAX_Iz(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeZ);
+end;
+
+procedure Decode_ES(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_SEG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := SEG_ES;
+  CheckOpSize(PInst, SIZE_WORD);
+end;
+
+procedure Decode_CS(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_SEG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := SEG_CS;
+  CheckOpSize(PInst, SIZE_WORD);
+end;
+
+procedure Decode_SS(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_SEG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := SEG_SS;
+  CheckOpSize(PInst, SIZE_WORD);
+end;
+
+procedure Decode_DS(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_SEG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := SEG_DS;
+  CheckOpSize(PInst, SIZE_WORD);
+end;
+
+procedure Decode_eAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_EAX);
+end;
+
+procedure Decode_eCX(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_ECX);
+end;
+
+procedure Decode_eDX(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_EDX);
+end;
+
+procedure Decode_eBX(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_EBX);
+end;
+
+procedure Decode_eSP(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_ESP);
+end;
+
+procedure Decode_eBP(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_EBP);
+end;
+
+procedure Decode_eSI(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_ESI);
+end;
+
+procedure Decode_eDI(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_EDI);
+end;
+
+procedure Decode_Gv_Ma(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
+  PInst^.Arg2.Flags := AF_MEM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ * 2;;
+  DecodeArgAsMem(PInst, PInst^.Arg2);
+end;
+
+procedure Decode_Gv_Ed(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
+  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg2.Size := SIZE_DWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg2);
+  end
+  else
+  begin
+    PInst^.Arg2.Size := SIZE_DWORD;
+    PInst^.Arg2.Reg := (REGS_GP or (SIZE_DWORD shl 8) or
+      PInst^.ModRm.Value.Rm or PInst^.Fields.B);
+  end;
+end;
+
+procedure Decode_Ew_Gw(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg1.Size := SIZE_WORD;
+    DecodeArgAsMem(PInst, PInst^.Arg1);
+  end
+  else
+  begin
+    PInst^.Arg1.Size := SIZE_WORD;
+    PInst^.Arg1.Reg := (REGS_GP or (SIZE_WORD shl 8) or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.B);
+  end;
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_WORD;
+  PInst^.Arg2.Reg := (REGS_GP or (SIZE_WORD shl 8) or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.R);
+  CheckOpSize(PInst, SIZE_WORD);
+end;
+
+procedure Decode_Iz(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_IMM;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  DecodeArgAsImm(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeZ);
+end;
+
+procedure Decode_Gv_Ev_Iz(PInst: PInstruction);
+begin
+  PInst^.nArg := $03;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
+  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+    DecodeArgAsMem(PInst, PInst^.Arg2);
+  end
+  else
+  begin
+    PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+    PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+      PInst^.ModRm.Value.Rm or PInst^.Fields.B);
+  end;
+  PInst^.Arg3.Flags := AF_IMM;
+  PInst^.Arg3.Size := PInst^.InternalData.OpSizeZ;
+  DecodeArgAsImm(PInst, PInst^.Arg3, PInst^.InternalData.OpSizeZ);
+end;
+
+procedure Decode_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_IMM;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg1, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_Gv_Ev_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $03;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
+  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+    DecodeArgAsMem(PInst, PInst^.Arg2);
+  end
+  else
+  begin
+    PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+    PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+      PInst^.ModRm.Value.Rm or PInst^.Fields.B);
+  end;
+  PInst^.Arg3.Flags := AF_IMM;
+  PInst^.Arg3.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg3, SIZE_BYTE);
+end;
+
+procedure Decode_Yb_DX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  DecodeArgAsMemY(PInst, PInst^.Arg1, SIZE_BYTE);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_WORD;
+  PInst^.Arg2.Reg := REG_DX;
+end;
+
+procedure Decode_Yz_DX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  DecodeArgAsMemY(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeZ);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_WORD;
+  PInst^.Arg2.Reg := REG_DX;
+end;
+
+procedure Decode_DX_Xb(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := REG_DX;
+  PInst^.Arg2.Flags := AF_MEM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsMemX(PInst, PInst^.Arg2, SIZE_BYTE);
+end;
+
+procedure Decode_DX_Xz(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := REG_DX;
+  PInst^.Arg2.Flags := AF_MEM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ;
+  DecodeArgAsMemX(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeZ);
+end;
+
+procedure Decode_Jb(PInst: PInstruction);
+begin
+  PInst^.nArg := $01;
+  PInst^.Arg1.Flags := AF_RELATIVE_OFFSET;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  DecodeJ(PInst, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_Mw_Sw(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_WORD;
+  DecodeArgAsMem(PInst, PInst^.Arg1);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_WORD;
+  PInst^.Arg2.Reg := (REGS_SEG or PInst^.ModRm.Value.Reg);
+  CheckOpSize(PInst, SIZE_WORD);
+  CheckSeg(PInst);
+end;
+
+procedure Decode_Rv_Sw(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    PInst^.ModRm.Value.Rm or PInst^.Fields.B);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_WORD;
+  PInst^.Arg2.Reg := (REGS_SEG or PInst^.ModRm.Value.Reg);
+  CheckSeg(PInst);
+end;
+
+procedure Decode_Gv_M(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    PInst^.ModRm.Value.Reg or PInst^.Fields.R);
+  PInst^.Arg2.Flags := AF_MEM;
+  PInst^.Arg2.Size := 0;
+  DecodeArgAsMem(PInst, PInst^.Arg2);
+end;
+
+procedure Decode_Sw_Mw(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := (REGS_SEG or PInst^.ModRm.Value.Reg);
+  PInst^.Arg2.Flags := AF_MEM;
+  PInst^.Arg2.Size := SIZE_WORD;
+  DecodeArgAsMem(PInst, PInst^.Arg2);
+  CheckOpSize(PInst, SIZE_WORD);
+  CheckSeg(PInst);
+end;
+
+procedure Decode_Sw_Rv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := (REGS_SEG or PInst^.ModRm.Value.Reg);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    PInst^.ModRm.Value.Rm or PInst^.Fields.B);
+  CheckSeg(PInst);
+end;
+
+procedure Decode_rCX_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RCX);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_r9_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or RID_R9);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_rDX_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RDX);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_r10_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R10);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_rBX_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RBX);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_r11_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R11);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_rSP_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RSP);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_r12_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R12);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_rBP_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RBP);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_r13_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R13);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_rSI_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RSI);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_r14_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R14);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_rDI_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RDI);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_r15_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R15);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_AL_Ob(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_AL;
+  PInst^.Arg2.Flags := AF_OFFSET;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsOffset(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_rAX_Ov(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+  PInst^.Arg2.Flags := AF_OFFSET;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsOffset(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_Ob_AL(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_OFFSET;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  DecodeArgAsOffset(PInst, PInst^.Arg1, SIZE_BYTE);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  PInst^.Arg2.Reg := REG_AL;
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_Ov_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_OFFSET;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsOffset(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeV);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_Yb_Xb(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  DecodeArgAsMemY(PInst, PInst^.Arg1, SIZE_BYTE);
+  PInst^.Arg2.Flags := AF_MEM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsMemX(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_Yv_Xv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsMemY(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeV);
+  PInst^.Arg2.Flags := AF_MEM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsMemX(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_Yb_AL(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  DecodeArgAsMemY(PInst, PInst^.Arg1, SIZE_BYTE);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  PInst^.Arg2.Reg := REG_AL;
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_Yv_rAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_MEM;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsMemY(PInst, PInst^.Arg1, PInst^.InternalData.OpSizeV);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+end;
+
+procedure Decode_AL_Xb(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_AL;
+  PInst^.Arg2.Flags := AF_MEM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsMemX(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_rAX_Xv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+  PInst^.Arg2.Flags := AF_MEM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsMemX(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_R8B_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_R8B;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_CL_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_CL;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_R9B_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_R9B;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_DL_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_DL;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_R10B_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_R10B;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_BL_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_BL;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_R11B_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_R11B;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_AH_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := (PInst^.InternalData.MagicRex or REG_AH);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_R12B_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_R12B;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_CH_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := (PInst^.InternalData.MagicRex or REG_CH);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_R13B_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_R13B;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_DH_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := (PInst^.InternalData.MagicRex or REG_DH);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_R14B_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_R14B;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_BH_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := (PInst^.InternalData.MagicRex or REG_BH);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_R15B_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_R15B;
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_rAX_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RAX);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_r8_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or RID_R8);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_rCX_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RCX);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_r9_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or RID_R9);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_rDX_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RDX);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_r10_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R10);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_rBX_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RBX);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_r11_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R11);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_rSP_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RSP);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_r12_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R12);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_rBP_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RBP);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_r13_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R13);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_rSI_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RSI);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_r14_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R14);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_rDI_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_RDI);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_r15_Iv(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeV;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or
+    RID_R15);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeV;
+  DecodeArgAsImm(PInst, PInst^.Arg2, PInst^.InternalData.OpSizeV);
+end;
+
+procedure Decode_Iw_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_IMM;
+  PInst^.Arg1.Size := SIZE_WORD;
+  DecodeArgAsImm(PInst, PInst^.Arg1, SIZE_WORD);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+end;
+
+procedure Decode_eAX_Ib(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_EAX);
+  PInst^.Arg2.Flags := AF_IMM;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg2, SIZE_BYTE);
+end;
+
+procedure Decode_Ib_AL(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_IMM;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg1, SIZE_BYTE);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  PInst^.Arg2.Reg := REG_AL;
+  CheckOpSize(PInst, SIZE_BYTE);
+end;
+
+procedure Decode_Ib_eAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_IMM;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  DecodeArgAsImm(PInst, PInst^.Arg1, SIZE_BYTE);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_EAX);
+end;
+
+procedure Decode_AL_DX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_BYTE;
+  PInst^.Arg1.Reg := REG_AL;
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_WORD;
+  PInst^.Arg2.Reg := REG_DX;
+end;
+
+procedure Decode_eAX_DX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_EAX);
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_WORD;
+  PInst^.Arg2.Reg := REG_DX;
+end;
+
+procedure Decode_DX_AL(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := REG_DX;
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_BYTE;
+  PInst^.Arg2.Reg := REG_AL;
+end;
+
+procedure Decode_DX_eAX(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_WORD;
+  PInst^.Arg1.Reg := REG_DX;
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := PInst^.InternalData.OpSizeZ;
+  PInst^.Arg2.Reg := (REGS_GP or (PInst^.InternalData.OpSizeZ shl 8) or
+    RID_EAX);
+end;
+
+procedure Decode_Vd_Wd(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_DWORD;
+  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
+  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg2.Size := SIZE_DWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg2);
+  end
+  else
+  begin
+    PInst^.Arg2.Size := SIZE_DWORD;
+    PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+  CheckOpSize(PInst, SIZE_DWORD);
+end;
+
+procedure Decode_Vq_Wq(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_QWORD;
+  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
+  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg2.Size := SIZE_QWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg2);
+  end
+  else
+  begin
+    PInst^.Arg2.Size := SIZE_QWORD;
+    PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+  CheckOpSize(PInst, SIZE_QWORD);
+end;
+
+procedure Decode_Vo_Wq(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := AF_REG;
+  PInst^.Arg1.Size := SIZE_OWORD;
+  PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
+  PInst^.Arg2.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg2.Size := SIZE_QWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg2);
+  end
+  else
+  begin
+    PInst^.Arg2.Size := SIZE_QWORD;
+    PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+end;
+
+procedure Decode_Wq_Vo(PInst: PInstruction);
+begin
+  PInst^.nArg := $02;
+  DecodeModRm(PInst);
+  PInst^.Arg1.Flags := MemRegFlagsSel[PInst^.ModRm.Value.IsMem];
+  if PInst^.ModRm.Value.IsMem then
+  begin
+    PInst^.Arg1.Size := SIZE_QWORD;
+    DecodeArgAsMem(PInst, PInst^.Arg1);
+  end
+  else
+  begin
+    PInst^.Arg1.Size := SIZE_QWORD;
+    PInst^.Arg1.Reg := (REGS_XMM or PInst^.ModRm.Value.Rm or
+      PInst^.Fields.XBExt());
+  end;
+  PInst^.Arg2.Flags := AF_REG;
+  PInst^.Arg2.Size := SIZE_OWORD;
+  PInst^.Arg2.Reg := (REGS_XMM or PInst^.ModRm.Value.Reg or
+    PInst^.Fields.RRpExt());
 end;
 
 procedure Decode_Eb_Ib(PInst: PInstruction);

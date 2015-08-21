@@ -651,20 +651,20 @@ begin
   end;
   if (F0 and PF_USED <> 0) and (F0 and PF_MANDATORY = 0) then
   begin
-    F0 := F0 and PF_VALID;
+    F0 := F0 or PF_VALID;
     L := PF_VALID;
   end;
   if PInst^.InstID = INST_ID_XCHG then
     L := PF_VALID;
   if (F2 and PF_USED <> 0) and (F2 and PF_MANDATORY = 0) then
   begin
-    F2 := F2 and PF_XAQUIRE and L;
+    F2 := F2 or PF_XAQUIRE or L;
     if (F0 and PF_VALID = 0) and (PInst^.InstID <> INST_ID_XCHG) then
       PInst^.Warn(WARN_XAQUIRE_NEED_LOCK);
   end;
   if (F3 and PF_USED <> 0) and (F3 and PF_MANDATORY = 0) then
   begin
-    F3 := F3 and PF_XRELEASE and L;
+    F3 := F3 or PF_XRELEASE or L;
     if (F0 and PF_VALID = 0) and (PInst^.InstID <> INST_ID_XCHG) then
       PInst^.Warn(WARN_XRELEASE_NEED_LOCK);
   end;

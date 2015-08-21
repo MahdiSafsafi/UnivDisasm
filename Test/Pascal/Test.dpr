@@ -23,7 +23,14 @@ uses
   avx512cd in 'avx512cd.pas',
   avx512er in 'avx512er.pas',
   avx512f in 'avx512f.pas',
-  avx512pf in 'avx512pf.pas';
+  avx512pf in 'avx512pf.pas',
+  bmi in 'bmi.pas',
+  bmi2 in 'bmi2.pas',
+  fma in 'fma.pas',
+  fma_scalar in 'fma_scalar.pas',
+  hle in 'hle.pas',
+  sse4v1 in 'sse4v1.pas',
+  sse4v2 in 'sse4v2.pas';
 
 begin
   Writeln('Test started...');
@@ -33,6 +40,14 @@ begin
     Test_avx512pf();
     Test_avx512cd();
     Test_avx512er();
+    Test_fma();
+    Test_fma_scalar();
+    Test_bmi();
+    Test_bmi2();
+    Test_hle();
+    Test_sse4v1();
+    Test_sse4v2();
+
     Writeln('Test finished.');
     Writeln(Format('Please refer to %slog\ *.log files.', [IncludeTrailingBackslash(ExtractFileDir(ParamStr(0)))]));
   except

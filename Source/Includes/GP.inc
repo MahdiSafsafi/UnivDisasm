@@ -1357,6 +1357,36 @@ begin
 {$ENDIF NEED_DISPLAY}
 end;
 
+procedure Decode_GP_MOVBE_Gv_Mv(PInst: PInstruction);
+begin
+  // MOVBE  Gv,Mv
+  PInst^.InstGroups := INST_GRP_GP;
+  PInst^.InstCategory := INST_CATEGORY_MISCELLANEOUS;
+  PInst^.FlagsIndex := $00;
+  MakeMndPrefix66(PInst);
+  Decode_Gv_Mv(PInst);
+  PInst^.InstID := INST_ID_MOVBE;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_MOVBE);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_GP_MOVBE_Mv_Gv(PInst: PInstruction);
+begin
+  // MOVBE  Mv,Gv
+  PInst^.InstGroups := INST_GRP_GP;
+  PInst^.InstCategory := INST_CATEGORY_MISCELLANEOUS;
+  PInst^.FlagsIndex := $00;
+  MakeMndPrefix66(PInst);
+  Decode_Mv_Gv(PInst);
+  PInst^.InstID := INST_ID_MOVBE;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_MOVBE);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
 procedure Decode_GP_ADD_Eb_Gb(PInst: PInstruction);
 begin
   // ADD  Eb,Gb
@@ -5216,36 +5246,6 @@ begin
   PInst^.InstID := INST_ID_STD;
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_STD);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_GP_MOVBE_Gv_Mv(PInst: PInstruction);
-begin
-  // MOVBE  Gv,Mv
-  PInst^.InstGroups := INST_GRP_GP;
-  PInst^.InstCategory := INST_CATEGORY_MISCELLANEOUS;
-  PInst^.FlagsIndex := $00;
-  MakeMndPrefix66(PInst);
-  Decode_Gv_Mv(PInst);
-  PInst^.InstID := INST_ID_MOVBE;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_MOVBE);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_GP_MOVBE_Mv_Gv(PInst: PInstruction);
-begin
-  // MOVBE  Mv,Gv
-  PInst^.InstGroups := INST_GRP_GP;
-  PInst^.InstCategory := INST_CATEGORY_MISCELLANEOUS;
-  PInst^.FlagsIndex := $00;
-  MakeMndPrefix66(PInst);
-  Decode_Mv_Gv(PInst);
-  PInst^.InstID := INST_ID_MOVBE;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_MOVBE);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
 {$ENDIF NEED_DISPLAY}
 end;

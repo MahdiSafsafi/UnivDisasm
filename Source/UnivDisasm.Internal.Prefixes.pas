@@ -103,13 +103,21 @@ const
   PP2MndPrf: array [0 .. 3] of Byte = (MND_PRF_NA, MND_PRF_66, MND_PRF_F3, MND_PRF_F2);
   CPUX2SegFlags: array [0 .. 1] of Byte = (PF_USED or PF_VALID, PF_USED);
 
+procedure ClearPrfNA(PInst: PInstruction);
+begin
+  PInst^.InternalData.MandatoryPrefixes := PInst^.InternalData.MandatoryPrefixes and not MND_PRF_NA;
+end;
+
 procedure UpdateOpSizeW(PInst: PInstruction);
 begin
   if PInst^.Fields.W then
   begin
+    PInst^.InternalData.OpSizeY := SIZE_QWORD;
     PInst^.InternalData.OpSizeV := SIZE_QWORD;
     PInst^.InternalData.OpSizeZ := SIZE_DWORD;
-  end;
+  end
+  else
+    PInst^.InternalData.OpSizeY := SIZE_DWORD;
 end;
 
 procedure Decode_PREFIXES_ES_void(PInst: PInstruction);
@@ -450,6 +458,7 @@ end;
 procedure Decode_PREFIXES_F2_void(PInst: PInstruction);
 begin
   { F2 }
+  ClearPrfNA(PInst);
   if PInst^.Prefixes.F2Prf.Count = 0 then
   begin
     PInst^.InternalData.MandatoryPrefixes := PInst^.InternalData.MandatoryPrefixes or MND_PRF_F2;
@@ -484,6 +493,7 @@ end;
 procedure Decode_PREFIXES_F3_void(PInst: PInstruction);
 begin
   { F3 }
+  ClearPrfNA(PInst);
   if PInst^.Prefixes.F3Prf.Count = 0 then
   begin
     PInst^.InternalData.MandatoryPrefixes := PInst^.InternalData.MandatoryPrefixes or MND_PRF_F3;

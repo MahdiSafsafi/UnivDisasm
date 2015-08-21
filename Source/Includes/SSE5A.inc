@@ -73,279 +73,6 @@ begin
 {$ENDIF NEED_DISPLAY}
 end;
 
-procedure Decode_SSE5A_FRCZPS_Vo_Wo(PInst: PInstruction);
-begin
-  // FRCZPS  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_FRCZPS;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_FRCZPS);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_FRCZPD_Vo_Wo(PInst: PInstruction);
-begin
-  // FRCZPD  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_FRCZPD;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_FRCZPD);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_FRCZSS_Vd_Wd(PInst: PInstruction);
-begin
-  // FRCZSS  Vd,Wd
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vd_Wd(PInst);
-  PInst^.InstID := INST_ID_FRCZSS;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_FRCZSS);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_FRCZSD_Vq_Wq(PInst: PInstruction);
-begin
-  // FRCZSD  Vq,Wq
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vq_Wq(PInst);
-  PInst^.InstID := INST_ID_FRCZSD;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_FRCZSD);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_CVTPH2PS_Vo_Wq(PInst: PInstruction);
-begin
-  // CVTPH2PS  Vo,Wq
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wq(PInst);
-  PInst^.InstID := INST_ID_CVTPH2PS;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_CVTPH2PS);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_CVTPS2PH_Wq_Vo(PInst: PInstruction);
-begin
-  // CVTPS2PH  Wq,Vo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Wq_Vo(PInst);
-  PInst^.InstID := INST_ID_CVTPS2PH;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_CVTPS2PH);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDBW_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDBW  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDBW;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDBW);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDBD_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDBD  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDBD;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDBD);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDBQ_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDBQ  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDBQ;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDBQ);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDWD_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDWD  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDWD;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDWD);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDWQ_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDWQ  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDWQ;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDWQ);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDDQ_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDDQ  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDDQ;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDDQ);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDUBW_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDUBW  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDUBW;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDUBW);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDUBD_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDUBD  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDUBD;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDUBD);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDUBQ_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDUBQ  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDUBQ;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDUBQ);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDUWD_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDUWD  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDUWD;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDUWD);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDUWQ_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDUWQ  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDUWQ;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDUWQ);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHADDUDQ_Vo_Wo(PInst: PInstruction);
-begin
-  // PHADDUDQ  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHADDUDQ;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHADDUDQ);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHSUBBW_Vo_Wo(PInst: PInstruction);
-begin
-  // PHSUBBW  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHSUBBW;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHSUBBW);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHSUBWD_Vo_Wo(PInst: PInstruction);
-begin
-  // PHSUBWD  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHSUBWD;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHSUBWD);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
-procedure Decode_SSE5A_PHSUBDQ_Vo_Wo(PInst: PInstruction);
-begin
-  // PHSUBDQ  Vo,Wo
-  PInst^.InstGroups := INST_GRP_SSE5A;
-  PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
-  PInst^.InstID := INST_ID_PHSUBDQ;
-{$IFDEF NEED_DISPLAY}
-  MoveMnem(PInst, MNEM_PHSUBDQ);
-  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
-{$ENDIF NEED_DISPLAY}
-end;
-
 procedure Decode_SSE5A_FMADDPS_VDo_VDo_Vo_Wo(PInst: PInstruction);
 begin
   // FMADDPS  VDo,VDo,Vo,Wo
@@ -2005,6 +1732,279 @@ begin
   PInst^.InstID := INSTS_ID_PCOMccUQ_Array[PInst^.OpImmExt and $07];
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEMS_PCOMccUQ_Array[PInst^.OpImmExt and $07]);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_FRCZPS_Vo_Wo(PInst: PInstruction);
+begin
+  // FRCZPS  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_FRCZPS;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_FRCZPS);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_FRCZPD_Vo_Wo(PInst: PInstruction);
+begin
+  // FRCZPD  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_FRCZPD;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_FRCZPD);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_FRCZSS_Vd_Wd(PInst: PInstruction);
+begin
+  // FRCZSS  Vd,Wd
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vd_Wd(PInst);
+  PInst^.InstID := INST_ID_FRCZSS;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_FRCZSS);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_FRCZSD_Vq_Wq(PInst: PInstruction);
+begin
+  // FRCZSD  Vq,Wq
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vq_Wq(PInst);
+  PInst^.InstID := INST_ID_FRCZSD;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_FRCZSD);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_CVTPH2PS_Vo_Wq(PInst: PInstruction);
+begin
+  // CVTPH2PS  Vo,Wq
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wq(PInst);
+  PInst^.InstID := INST_ID_CVTPH2PS;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_CVTPH2PS);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_CVTPS2PH_Wq_Vo(PInst: PInstruction);
+begin
+  // CVTPS2PH  Wq,Vo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Wq_Vo(PInst);
+  PInst^.InstID := INST_ID_CVTPS2PH;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_CVTPS2PH);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDBW_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDBW  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDBW;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDBW);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDBD_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDBD  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDBD;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDBD);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDBQ_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDBQ  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDBQ;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDBQ);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDWD_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDWD  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDWD;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDWD);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDWQ_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDWQ  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDWQ;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDWQ);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDDQ_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDDQ  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDDQ;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDDQ);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDUBW_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDUBW  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDUBW;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDUBW);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDUBD_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDUBD  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDUBD;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDUBD);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDUBQ_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDUBQ  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDUBQ;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDUBQ);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDUWD_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDUWD  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDUWD;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDUWD);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDUWQ_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDUWQ  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDUWQ;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDUWQ);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHADDUDQ_Vo_Wo(PInst: PInstruction);
+begin
+  // PHADDUDQ  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHADDUDQ;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHADDUDQ);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHSUBBW_Vo_Wo(PInst: PInstruction);
+begin
+  // PHSUBBW  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHSUBBW;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHSUBBW);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHSUBWD_Vo_Wo(PInst: PInstruction);
+begin
+  // PHSUBWD  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHSUBWD;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHSUBWD);
+  SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
+{$ENDIF NEED_DISPLAY}
+end;
+
+procedure Decode_SSE5A_PHSUBDQ_Vo_Wo(PInst: PInstruction);
+begin
+  // PHSUBDQ  Vo,Wo
+  PInst^.InstGroups := INST_GRP_SSE5A;
+  PInst^.FlagsIndex := $00;
+  Decode_Vo_Wo(PInst);
+  PInst^.InstID := INST_ID_PHSUBDQ;
+{$IFDEF NEED_DISPLAY}
+  MoveMnem(PInst, MNEM_PHSUBDQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
 {$ENDIF NEED_DISPLAY}
 end;

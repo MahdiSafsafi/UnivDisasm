@@ -453,14 +453,15 @@ begin
 end;
 
 function Disasm(PInst: PInstruction): ShortInt;
-const
+(* const
   CPU2OpSizeY: array [0 .. 1] of Byte = (SIZE_DWORD, SIZE_QWORD);
+*)
 var
   P: PByte;
 begin
   PInst^.AddressMode := DefAddressMode[PInst^.Arch];
   PInst^.NextInst := PInst^.Addr;
-  PInst^.InternalData.OpSizeY := CPU2OpSizeY[PInst^.Arch];
+  PInst^.InternalData.OpSizeY := SIZE_DWORD;
   PInst^.InternalData.OpSizeV := SIZE_DWORD;
   PInst^.InternalData.OpSizeZ := SIZE_DWORD;
   PInst^.Mnem := AllocMem(MAX_MNEM_LENGTH);
@@ -471,6 +472,7 @@ begin
     PInst^.SafeLength := $FF;
   PInst^.InternalData.SyntaxID := SyntaxManager.GetSyntaxIndex(PInst^.Syntax);
   PInst^.InstID := INST_ID_INVALID;
+  PInst^.InternalData.MandatoryPrefixes := MND_PRF_NA;
   TABLE_1[PInst^.Addr^](PInst);
   Result := PInst^.NextInst - PInst^.Addr;
   AnalyseAF(PInst);
@@ -531,6 +533,7 @@ end;
 procedure TInstruction.SetSizeToDf64;
 begin
   InternalData.OpSizeV := SIZE_QWORD;
+  InternalData.OpSizeY := SIZE_QWORD;
   if (Vendor = VENDOR_AMD) and (Prefixes.OpSizePrf.Flags and PF_USED <> 0) then
     InternalData.OpSizeV := SIZE_WORD;
 end;
@@ -540,6 +543,7 @@ begin
   { Force Size to 64bit on PM64. }
   if Arch = CPUX64 then
   begin
+    InternalData.OpSizeY := SIZE_QWORD;
     InternalData.OpSizeV := SIZE_QWORD;
   end;
 end;

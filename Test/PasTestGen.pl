@@ -62,4 +62,13 @@ gentest('avx2.asm');
 gentest('avx512cd.asm');
 gentest('avx512er.asm');
 gentest('avx512pf.asm');
+gentest('fma.asm');
+gentest('fma_scalar.asm');
+gentest('bmi.asm');
+gentest('bmi2.asm');
+gentest('sse4v1.asm');
+gentest('sse4v2.asm');
+gentest('hle.asm');
+
+
 print"Done.\n"

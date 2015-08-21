@@ -1530,8 +1530,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512F or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  PInst^.SetTuple4VL256(TT_T1S);
   PInst^.SetTuple4VL512(TT_T1S);
+  PInst^.SetTuple4VL256(TT_T1S);
   Decode_Vu_K_z_Wo_q(PInst);
   PInst^.InstID := INST_ID_VBROADCASTSD;
 {$IFDEF NEED_DISPLAY}
@@ -2027,8 +2027,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512F or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  PInst^.SetTuple4VL256(TT_FV);
   PInst^.SetTuple4VL512(TT_FV);
+  PInst^.SetTuple4VL256(TT_FV);
   Decode_Vu_K_z_Hu_B64_Wu(PInst);
   PInst^.InstID := INST_ID_VPERMQ;
 {$IFDEF NEED_DISPLAY}
@@ -2419,8 +2419,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512F or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  PInst^.SetTuple4VL256(TT_T4);
   PInst^.SetTuple4VL512(TT_T4);
+  PInst^.SetTuple4VL256(TT_T4);
   Decode_Vu_K_z_Mo(PInst);
   PInst^.InstID := INST_ID_VBROADCASTI32X4;
 {$IFDEF NEED_DISPLAY}
@@ -3339,8 +3339,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512F or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  PInst^.SetTuple4VL256(TT_FV);
   PInst^.SetTuple4VL512(TT_FV);
+  PInst^.SetTuple4VL256(TT_FV);
   Decode_Vu_K_z_B64_Wu_Ib(PInst);
   PInst^.InstID := INST_ID_VPERMQ;
 {$IFDEF NEED_DISPLAY}
@@ -3463,8 +3463,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512F or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  PInst^.SetTuple4VL512(TT_T4);
   PInst^.SetTuple4VL256(TT_T4);
+  PInst^.SetTuple4VL512(TT_T4);
   Decode_Vu_K_z_Hu_Wo_Ib(PInst);
   PInst^.InstID := INST_ID_VINSERTF32X4;
 {$IFDEF NEED_DISPLAY}
@@ -3479,8 +3479,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512F or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  PInst^.SetTuple4VL256(TT_T4);
   PInst^.SetTuple4VL512(TT_T4);
+  PInst^.SetTuple4VL256(TT_T4);
   Decode_Wo_K_z_Vu_Ib(PInst);
   PInst^.InstID := INST_ID_VEXTRACTF32X4;
 {$IFDEF NEED_DISPLAY}
@@ -3670,8 +3670,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512F or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  PInst^.SetTuple4VL512(TT_T4);
   PInst^.SetTuple4VL256(TT_T4);
+  PInst^.SetTuple4VL512(TT_T4);
   Decode_Vu_K_z_Hu_Wo_Ib(PInst);
   PInst^.InstID := INST_ID_VINSERTI32X4;
 {$IFDEF NEED_DISPLAY}
@@ -3686,8 +3686,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512F or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  PInst^.SetTuple4VL256(TT_T4);
   PInst^.SetTuple4VL512(TT_T4);
+  PInst^.SetTuple4VL256(TT_T4);
   Decode_Wo_K_z_Vu_Ib(PInst);
   PInst^.InstID := INST_ID_VEXTRACTI32X4;
 {$IFDEF NEED_DISPLAY}

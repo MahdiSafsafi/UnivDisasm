@@ -1,7 +1,7 @@
 ---------------- Log Info --------------
 Total decoded instructions = 6978.
 Errors found = 0.
-Timing = 00:00:00.2522634
+Timing = 00:00:00.2098995
 -----------------------------------------
 
 ----------- Instructions Str ------------
@@ -6612,12 +6612,12 @@ TestID 6601      =  kmovw  k5,word [rcx]                                :  kmovw
 TestID 6602      =  kmovw  k5,word [rax+r14*8+0x123]                    :  kmovw k5,word [rax+r14*8+0x123]                   
 TestID 6603      =  kmovw  word [rcx],k5                                :  kmovw word [rcx],k5                               
 TestID 6604      =  kmovw  word [rax+r14*8+0x123],k5                    :  kmovw word [rax+r14*8+0x123],k5                   
-TestID 6605      =  kmovw  k5,eax                                       :  kmovw k5,rax                                      
-TestID 6606      =  kmovw  k5,ebp                                       :  kmovw k5,rbp                                      
-TestID 6607      =  kmovw  k5,r13d                                      :  kmovw k5,r13                                      
-TestID 6608      =  kmovw  eax,k5                                       :  kmovw rax,k5                                      
-TestID 6609      =  kmovw  ebp,k5                                       :  kmovw rbp,k5                                      
-TestID 6610      =  kmovw  r13d,k5                                      :  kmovw r13,k5                                      
+TestID 6605      =  kmovw  k5,eax                                       :  kmovw k5,eax                                      
+TestID 6606      =  kmovw  k5,ebp                                       :  kmovw k5,ebp                                      
+TestID 6607      =  kmovw  k5,r13d                                      :  kmovw k5,r13d                                     
+TestID 6608      =  kmovw  eax,k5                                       :  kmovw eax,k5                                      
+TestID 6609      =  kmovw  ebp,k5                                       :  kmovw ebp,k5                                      
+TestID 6610      =  kmovw  r13d,k5                                      :  kmovw r13d,k5                                     
 TestID 6611      =  kunpckbw k5,k6,k7                                   :  kunpckbw k5,k6,k7                                 
 TestID 6612      =  vcvtps2ph yword [rcx],zmm30,0xab                    :  vcvtps2ph yword [rcx],zmm30,0xab                  
 TestID 6613      =  vcvtps2ph yword [rcx]{k7},zmm30,0xab                :  vcvtps2ph yword [rcx]{k7},zmm30,0xab              

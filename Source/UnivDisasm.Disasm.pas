@@ -561,19 +561,34 @@ end;
 
 procedure TInstruction.SetTuple4VL128(ATuple: UInt8);
 begin
-  if Fields.VL = VL128 then
+  if (InternalData.Tuple > 0) then
+  begin
+    if Fields.VL = VL128 then
+      InternalData.Tuple := ATuple;
+  end
+  else
     InternalData.Tuple := ATuple;
 end;
 
 procedure TInstruction.SetTuple4VL256(ATuple: UInt8);
 begin
-  if Fields.VL = VL256 then
+  if (InternalData.Tuple > 0) then
+  begin
+    if Fields.VL = VL256 then
+      InternalData.Tuple := ATuple;
+  end
+  else
     InternalData.Tuple := ATuple;
 end;
 
 procedure TInstruction.SetTuple4VL512(ATuple: UInt8);
 begin
-  if Fields.VL = VL512 then
+  if (InternalData.Tuple > 0) then
+  begin
+    if Fields.VL = VL512 then
+      InternalData.Tuple := ATuple;
+  end
+  else
     InternalData.Tuple := ATuple;
 end;
 

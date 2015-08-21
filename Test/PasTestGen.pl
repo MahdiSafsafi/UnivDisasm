@@ -66,9 +66,14 @@ gentest('fma.asm');
 gentest('fma_scalar.asm');
 gentest('bmi.asm');
 gentest('bmi2.asm');
+gentest('simd.asm');
 gentest('sse4v1.asm');
 gentest('sse4v2.asm');
 gentest('hle.asm');
+gentest('evex_lig256.asm');
+gentest('evex_lig512.asm');
+gentest('evex_wig1.asm');
+
 
 
 print"Done.\n"

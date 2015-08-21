@@ -148,6 +148,7 @@ begin
   else
     VL := 3;
   Tuple := PInst^.InternalData.Tuple;
+
   case Tuple of
     TT_FV: N := FV2N[W][bc][VL];
     TT_HV: N := HV2N[bc][VL];
@@ -157,6 +158,8 @@ begin
         case InputSize of
           SIZE_1_BYTE: N := SIZE_1_BYTE;
           SIZE_2_BYTE: N := SIZE_2_BYTE;
+          SIZE_4_BYTE: N := SIZE_4_BYTE;
+          SIZE_8_BYTE: N := SIZE_8_BYTE;
         else
           begin
             if W then
@@ -164,6 +167,7 @@ begin
             else
               N := SIZE_4_BYTE;
           end;
+
         end;
       end;
     TT_T1F:

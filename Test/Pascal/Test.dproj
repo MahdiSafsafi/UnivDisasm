@@ -144,9 +144,13 @@
         <DCCReference Include="avx512pf.pas"/>
         <DCCReference Include="bmi.pas"/>
         <DCCReference Include="bmi2.pas"/>
+        <DCCReference Include="evex_lig256.pas"/>
+        <DCCReference Include="evex_lig512.pas"/>
+        <DCCReference Include="evex_wig1.pas"/>
         <DCCReference Include="fma.pas"/>
         <DCCReference Include="fma_scalar.pas"/>
         <DCCReference Include="hle.pas"/>
+        <DCCReference Include="simd.pas"/>
         <DCCReference Include="sse4v1.pas"/>
         <DCCReference Include="sse4v2.pas"/>
         <BuildConfiguration Include="Release">

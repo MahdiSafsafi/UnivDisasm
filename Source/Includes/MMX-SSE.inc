@@ -29,8 +29,8 @@ begin
     INST_CATEGORY_FLOATING_POINT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SINGLE_PRECISION);
   PInst^.FlagsIndex := $00;
-  Decode_Vo_Nq(PInst);
   PInst^.InstID := INST_ID_CVTPI2PS;
+  Decode_Vo_Nq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_CVTPI2PS);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -45,8 +45,8 @@ begin
     INST_CATEGORY_FLOATING_POINT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SINGLE_PRECISION);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Wo_q(PInst);
   PInst^.InstID := INST_ID_CVTTPS2PI;
+  Decode_Pq_Wo_q(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_CVTTPS2PI);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -61,8 +61,8 @@ begin
     INST_CATEGORY_FLOATING_POINT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SINGLE_PRECISION);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Wo_q(PInst);
   PInst^.InstID := INST_ID_CVTPS2PI;
+  Decode_Pq_Wo_q(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_CVTPS2PI);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -76,8 +76,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SHUFFLE or INST_CATEGORY_SIMD);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Qq_Ib(PInst);
   PInst^.InstID := INST_ID_PSHUFW;
+  Decode_Pq_Qq_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PSHUFW);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -91,8 +91,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_SIMD);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Mw_Ib(PInst);
   PInst^.InstID := INST_ID_PINSRW;
+  Decode_Pq_Mw_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PINSRW);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -106,8 +106,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_SIMD);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Rv_Ib(PInst);
   PInst^.InstID := INST_ID_PINSRW;
+  Decode_Pq_Rv_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PINSRW);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -120,8 +120,8 @@ begin
   PInst^.InstGroups := (INST_GRP_MMX or INST_GRP_SSE);
   PInst^.InstCategory := INST_CATEGORY_EXTRACTION;
   PInst^.FlagsIndex := $00;
-  Decode_Gy_Nq_Ib(PInst);
   PInst^.InstID := INST_ID_PEXTRW;
+  Decode_Gy_Nq_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PEXTRW);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -135,8 +135,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_SIMD);
   PInst^.FlagsIndex := $00;
-  Decode_Gy_Nq(PInst);
   PInst^.InstID := INST_ID_PMOVMSKB;
+  Decode_Gy_Nq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PMOVMSKB);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -150,8 +150,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SIMD or INST_CATEGORY_UNSIGNED);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Qq(PInst);
   PInst^.InstID := INST_ID_PMINUB;
+  Decode_Pq_Qq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PMINUB);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -165,8 +165,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SIMD or INST_CATEGORY_UNSIGNED);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Qq(PInst);
   PInst^.InstID := INST_ID_PMAXUB;
+  Decode_Pq_Qq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PMAXUB);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -180,8 +180,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SIMD or INST_CATEGORY_UNSIGNED);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Qq(PInst);
   PInst^.InstID := INST_ID_PAVGB;
+  Decode_Pq_Qq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PAVGB);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -195,8 +195,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SIMD or INST_CATEGORY_UNSIGNED);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Qq(PInst);
   PInst^.InstID := INST_ID_PAVGW;
+  Decode_Pq_Qq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PAVGW);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -211,8 +211,8 @@ begin
     INST_CATEGORY_PACKED or INST_CATEGORY_SIMD or INST_CATEGORY_STORE or
     INST_CATEGORY_UNSIGNED);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Qq(PInst);
   PInst^.InstID := INST_ID_PMULHUW;
+  Decode_Pq_Qq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PMULHUW);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -226,8 +226,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_CACHEABILITY_CONTROL or
     INST_CATEGORY_STORE);
   PInst^.FlagsIndex := $00;
-  Decode_Mq_Pq(PInst);
   PInst^.InstID := INST_ID_MOVNTQ;
+  Decode_Mq_Pq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_MOVNTQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -241,8 +241,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SIGNED or INST_CATEGORY_SIMD);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Qq(PInst);
   PInst^.InstID := INST_ID_PMINSW;
+  Decode_Pq_Qq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PMINSW);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -256,8 +256,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_PACKED or INST_CATEGORY_SIGNED or INST_CATEGORY_SIMD);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Qq(PInst);
   PInst^.InstID := INST_ID_PMAXSW;
+  Decode_Pq_Qq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PMAXSW);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -271,8 +271,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_64_BIT or INST_CATEGORY_INTEGER or
     INST_CATEGORY_SIMD);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Qq(PInst);
   PInst^.InstID := INST_ID_PSADBW;
+  Decode_Pq_Qq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PSADBW);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -286,8 +286,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_CACHEABILITY_CONTROL or
     INST_CATEGORY_STORE);
   PInst^.FlagsIndex := $00;
-  Decode_Pq_Nq(PInst);
   PInst^.InstID := INST_ID_MASKMOVQ;
+  Decode_Pq_Nq(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_MASKMOVQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

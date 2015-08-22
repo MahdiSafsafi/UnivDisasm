@@ -27,8 +27,8 @@ begin
   PInst^.InstGroups := INST_GRP_BMI;
   PInst^.InstCategory := INST_CATEGORY_BMI1;
   PInst^.FlagsIndex := $00;
-  Decode_Gy_By_Ey(PInst);
   PInst^.InstID := INST_ID_ANDN;
+  Decode_Gy_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_ANDN);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -41,8 +41,8 @@ begin
   PInst^.InstGroups := INST_GRP_BMI;
   PInst^.InstCategory := INST_CATEGORY_BMI1;
   PInst^.FlagsIndex := $00;
-  Decode_Gy_Ey_By(PInst);
   PInst^.InstID := INST_ID_BEXTR;
+  Decode_Gy_Ey_By(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BEXTR);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -55,8 +55,8 @@ begin
   PInst^.InstGroups := INST_GRP_BMI;
   PInst^.InstCategory := INST_CATEGORY_BMI1;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLSR;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLSR);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -69,8 +69,8 @@ begin
   PInst^.InstGroups := INST_GRP_BMI;
   PInst^.InstCategory := INST_CATEGORY_BMI1;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLSMSK;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLSMSK);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -83,8 +83,8 @@ begin
   PInst^.InstGroups := INST_GRP_BMI;
   PInst^.InstCategory := INST_CATEGORY_BMI1;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLSI;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLSI);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

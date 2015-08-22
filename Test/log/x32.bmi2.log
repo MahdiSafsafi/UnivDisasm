@@ -1,0 +1,50 @@
+---------------- Log Info --------------
+Total decoded instructions = 40.
+Errors found = 0.
+Timing = 00:00:00.0013916
+-----------------------------------------
+
+----------- Instructions Str ------------
+{ Source InstStr   :   UnivInsStr }
+
+TestID 0         =  rorx  ebx,eax,0x7                                   :  rorx eax,eax,7                                    
+TestID 1         =  rorx  ebx,dword [ecx],0x7                           :  rorx eax,dword ds:[ecx],7                         
+TestID 2         =  mulx  esi,ebx,eax                                   :  mulx esi,ebx,eax                                  
+TestID 3         =  mulx  esi,ebx,dword [ecx]                           :  mulx esi,ebx,dword ds:[ecx]                       
+TestID 4         =  pdep  esi,ebx,eax                                   :  pdep esi,ebx,eax                                  
+TestID 5         =  pdep  esi,ebx,dword [ecx]                           :  pdep esi,ebx,dword ds:[ecx]                       
+TestID 6         =  pext  esi,ebx,eax                                   :  pext esi,ebx,eax                                  
+TestID 7         =  pext  esi,ebx,dword [ecx]                           :  pext esi,ebx,dword ds:[ecx]                       
+TestID 8         =  bzhi  esi,ebx,eax                                   :  bzhi esi,ebx,eax                                  
+TestID 9         =  bzhi  esi,dword [ecx],ebx                           :  bzhi esi,dword ds:[ecx],ebx                       
+TestID 10        =  sarx  esi,ebx,eax                                   :  sarx esi,ebx,eax                                  
+TestID 11        =  sarx  esi,dword [ecx],ebx                           :  sarx esi,dword ds:[ecx],ebx                       
+TestID 12        =  shlx  esi,ebx,eax                                   :  shlx esi,ebx,eax                                  
+TestID 13        =  shlx  esi,dword [ecx],ebx                           :  shlx esi,dword ds:[ecx],ebx                       
+TestID 14        =  shrx  esi,ebx,eax                                   :  shrx esi,ebx,eax                                  
+TestID 15        =  shrx  esi,dword [ecx],ebx                           :  shrx esi,dword ds:[ecx],ebx                       
+TestID 16        =  rorx  ebx,eax,0x7                                   :  rorx eax,eax,7                                    
+TestID 17        =  rorx  ebx,dword [ecx],0x7                           :  rorx eax,dword ds:[ecx],7                         
+TestID 18        =  rorx  ebx,dword [ecx],0x7                           :  rorx eax,dword ds:[ecx],7                         
+TestID 19        =  mulx  esi,ebx,eax                                   :  mulx esi,ebx,eax                                  
+TestID 20        =  mulx  esi,ebx,dword [ecx]                           :  mulx esi,ebx,dword ds:[ecx]                       
+TestID 21        =  mulx  esi,ebx,dword [ecx]                           :  mulx esi,ebx,dword ds:[ecx]                       
+TestID 22        =  pdep  esi,ebx,eax                                   :  pdep esi,ebx,eax                                  
+TestID 23        =  pdep  esi,ebx,dword [ecx]                           :  pdep esi,ebx,dword ds:[ecx]                       
+TestID 24        =  pdep  esi,ebx,dword [ecx]                           :  pdep esi,ebx,dword ds:[ecx]                       
+TestID 25        =  pext  esi,ebx,eax                                   :  pext esi,ebx,eax                                  
+TestID 26        =  pext  esi,ebx,dword [ecx]                           :  pext esi,ebx,dword ds:[ecx]                       
+TestID 27        =  pext  esi,ebx,dword [ecx]                           :  pext esi,ebx,dword ds:[ecx]                       
+TestID 28        =  bzhi  esi,ebx,eax                                   :  bzhi esi,ebx,eax                                  
+TestID 29        =  bzhi  esi,dword [ecx],ebx                           :  bzhi esi,dword ds:[ecx],ebx                       
+TestID 30        =  bzhi  esi,dword [ecx],ebx                           :  bzhi esi,dword ds:[ecx],ebx                       
+TestID 31        =  sarx  esi,ebx,eax                                   :  sarx esi,ebx,eax                                  
+TestID 32        =  sarx  esi,dword [ecx],ebx                           :  sarx esi,dword ds:[ecx],ebx                       
+TestID 33        =  sarx  esi,dword [ecx],ebx                           :  sarx esi,dword ds:[ecx],ebx                       
+TestID 34        =  shlx  esi,ebx,eax                                   :  shlx esi,ebx,eax                                  
+TestID 35        =  shlx  esi,dword [ecx],ebx                           :  shlx esi,dword ds:[ecx],ebx                       
+TestID 36        =  shlx  esi,dword [ecx],ebx                           :  shlx esi,dword ds:[ecx],ebx                       
+TestID 37        =  shrx  esi,ebx,eax                                   :  shrx esi,ebx,eax                                  
+TestID 38        =  shrx  esi,dword [ecx],ebx                           :  shrx esi,dword ds:[ecx],ebx                       
+TestID 39        =  shrx  esi,dword [ecx],ebx                           :  shrx esi,dword ds:[ecx],ebx                       
+-----------------------------------------

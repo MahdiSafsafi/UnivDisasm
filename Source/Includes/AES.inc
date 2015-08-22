@@ -28,8 +28,8 @@ begin
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_AESIMC;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_AESIMC);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -43,8 +43,8 @@ begin
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_AESENC;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_AESENC);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -58,8 +58,8 @@ begin
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_AESENCLAST;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_AESENCLAST);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -73,8 +73,8 @@ begin
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_AESDEC;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_AESDEC);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -88,8 +88,8 @@ begin
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_AESDECLAST;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_AESDECLAST);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -103,8 +103,8 @@ begin
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo_Ib(PInst);
   PInst^.InstID := INST_ID_AESKEYGENASSIST;
+  Decode_Vo_Wo_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_AESKEYGENASSIST);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

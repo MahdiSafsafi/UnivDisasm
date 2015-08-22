@@ -27,8 +27,8 @@ begin
   PInst^.InstGroups := INST_GRP_TSX;
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
-  Decode_Ib(PInst);
   PInst^.InstID := INST_ID_XABORT;
+  Decode_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_XABORT);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -41,8 +41,8 @@ begin
   PInst^.InstGroups := INST_GRP_TSX;
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
-  Decode_Jz(PInst);
   PInst^.InstID := INST_ID_XBEGIN;
+  Decode_Jz(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_XBEGIN);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -55,8 +55,8 @@ begin
   PInst^.InstGroups := INST_GRP_TSX;
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
-  Decode_void(PInst);
   PInst^.InstID := INST_ID_XEND;
+  Decode_void(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_XEND);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -69,8 +69,8 @@ begin
   PInst^.InstGroups := INST_GRP_TSX;
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
-  Decode_void(PInst);
   PInst^.InstID := INST_ID_XTEST;
+  Decode_void(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_XTEST);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

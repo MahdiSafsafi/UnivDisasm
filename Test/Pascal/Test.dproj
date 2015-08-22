@@ -137,22 +137,7 @@
         <DCCReference Include="..\..\Source\UnivDisasm.Syntax.Utils.pas"/>
         <DCCReference Include="..\..\Source\UnivDisasm.SyntaxManager.pas"/>
         <DCCReference Include="..\..\Source\UnivDisasm.Utils.pas"/>
-        <DCCReference Include="avx2.pas"/>
-        <DCCReference Include="avx512cd.pas"/>
-        <DCCReference Include="avx512er.pas"/>
-        <DCCReference Include="avx512f.pas"/>
-        <DCCReference Include="avx512pf.pas"/>
-        <DCCReference Include="bmi.pas"/>
-        <DCCReference Include="bmi2.pas"/>
-        <DCCReference Include="evex_lig256.pas"/>
-        <DCCReference Include="evex_lig512.pas"/>
-        <DCCReference Include="evex_wig1.pas"/>
-        <DCCReference Include="fma.pas"/>
-        <DCCReference Include="fma_scalar.pas"/>
-        <DCCReference Include="hle.pas"/>
-        <DCCReference Include="simd.pas"/>
-        <DCCReference Include="sse4v1.pas"/>
-        <DCCReference Include="sse4v2.pas"/>
+        <DCCReference Include="GlobalTest.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

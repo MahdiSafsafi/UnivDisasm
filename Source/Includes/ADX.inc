@@ -29,8 +29,8 @@ begin
     INST_CATEGORY_INTEGER or INST_CATEGORY_UNSIGNED);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Gy_Ey(PInst);
   PInst^.InstID := INST_ID_ADCX;
+  Decode_Gy_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_ADCX);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -45,8 +45,8 @@ begin
     INST_CATEGORY_INTEGER or INST_CATEGORY_UNSIGNED);
   PInst^.FlagsIndex := $00;
   MakeMndPrefixF3(PInst);
-  Decode_Gy_Ey(PInst);
   PInst^.InstID := INST_ID_ADOX;
+  Decode_Gy_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_ADOX);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

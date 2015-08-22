@@ -28,8 +28,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FVM);
-  Decode_Vn_K_z_Hn_Wn(PInst);
   PInst^.InstID := INST_ID_VPERMI2B;
+  Decode_Vn_K_z_Hn_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPERMI2B);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -43,8 +43,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FVM);
-  Decode_Vn_K_z_Hn_Wn(PInst);
   PInst^.InstID := INST_ID_VPERMT2B;
+  Decode_Vn_K_z_Hn_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPERMT2B);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -59,8 +59,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FV);
-  Decode_Vn_K_z_Hn_B64_Wn(PInst);
   PInst^.InstID := INST_ID_VPMULTISHIFTQB;
+  Decode_Vn_K_z_Hn_B64_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPMULTISHIFTQB);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -74,8 +74,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FVM);
-  Decode_Vn_K_z_Hn_Wn(PInst);
   PInst^.InstID := INST_ID_VPERMB;
+  Decode_Vn_K_z_Hn_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPERMB);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

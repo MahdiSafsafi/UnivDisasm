@@ -19,45 +19,14 @@ uses
   UnivDisasm.Syntax.Utils in '..\..\Source\UnivDisasm.Syntax.Utils.pas',
   UnivDisasm.SyntaxManager in '..\..\Source\UnivDisasm.SyntaxManager.pas',
   UnivDisasm.Utils in '..\..\Source\UnivDisasm.Utils.pas',
-  avx2 in 'avx2.pas',
-  avx512cd in 'avx512cd.pas',
-  avx512er in 'avx512er.pas',
-  avx512f in 'avx512f.pas',
-  avx512pf in 'avx512pf.pas',
-  bmi in 'bmi.pas',
-  bmi2 in 'bmi2.pas',
-  evex_lig256 in 'evex_lig256.pas',
-  evex_lig512 in 'evex_lig512.pas',
-  evex_wig1 in 'evex_wig1.pas',
-  fma in 'fma.pas',
-  fma_scalar in 'fma_scalar.pas',
-  hle in 'hle.pas',
-  simd in 'simd.pas',
-  sse4v1 in 'sse4v1.pas',
-  sse4v2 in 'sse4v2.pas';
+  GlobalTest in 'GlobalTest.pas';
 
 begin
   Writeln('Test started...');
   try
-    Test_evex_wig1();
-    Test_evex_lig256();
-    Test_evex_lig512();
-    Test_avx2();
-    Test_avx512f();
-    Test_avx512pf();
-    Test_avx512cd();
-    Test_avx512er();
-    Test_fma();
-    Test_fma_scalar();
-    Test_bmi();
-    Test_bmi2();
-    Test_hle();
-    Test_sse4v1();
-    Test_sse4v2();
-    Test_simd();
-
+    TestAll();
     Writeln('Test finished.');
-    Writeln(Format('Please refer to %slog\ *.log files.', [IncludeTrailingBackslash(ExtractFileDir(ParamStr(0)))]));
+    Writeln('Please refer to log directory.');
   except
     on E: Exception do
       Writeln(E.ClassName, ': ', E.Message);

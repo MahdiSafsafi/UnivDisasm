@@ -27,8 +27,8 @@ begin
   PInst^.InstGroups := INST_GRP_SMM;
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $58;
-  Decode_void(PInst);
   PInst^.InstID := INST_ID_RSM;
+  Decode_void(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_RSM);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

@@ -28,8 +28,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_CACHEABILITY_CONTROL or
     INST_CATEGORY_STORE);
   PInst^.FlagsIndex := $00;
-  Decode_void(PInst);
   PInst^.InstID := INST_ID_SFENCE;
+  Decode_void(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_SFENCE);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -41,8 +41,8 @@ begin
   // PREFETCHNTA  M
   PInst^.InstGroups := (INST_GRP_MEM or INST_GRP_SSE);
   PInst^.FlagsIndex := $00;
-  Decode_M(PInst);
   PInst^.InstID := INST_ID_PREFETCHNTA;
+  Decode_M(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PREFETCHNTA);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -54,8 +54,8 @@ begin
   // PREFETCHT0  M
   PInst^.InstGroups := (INST_GRP_MEM or INST_GRP_SSE);
   PInst^.FlagsIndex := $00;
-  Decode_M(PInst);
   PInst^.InstID := INST_ID_PREFETCHT0;
+  Decode_M(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PREFETCHT0);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -67,8 +67,8 @@ begin
   // PREFETCHT1  M
   PInst^.InstGroups := (INST_GRP_MEM or INST_GRP_SSE);
   PInst^.FlagsIndex := $00;
-  Decode_M(PInst);
   PInst^.InstID := INST_ID_PREFETCHT1;
+  Decode_M(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PREFETCHT1);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -80,8 +80,8 @@ begin
   // PREFETCHT2  M
   PInst^.InstGroups := (INST_GRP_MEM or INST_GRP_SSE);
   PInst^.FlagsIndex := $00;
-  Decode_M(PInst);
   PInst^.InstID := INST_ID_PREFETCHT2;
+  Decode_M(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PREFETCHT2);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

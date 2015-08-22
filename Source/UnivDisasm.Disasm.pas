@@ -163,6 +163,7 @@ type
     MagicRex: Byte;
     Seg: TReg;
     SyntaxID: UInt8;
+    Sp:Integer;
     Tuple: UInt8;
   end;
 
@@ -262,6 +263,7 @@ type
     function GetEflags: TEFlags;
     function SupportFlag(AFlag: Word): Word;
     function IsOpcVPrefix: Boolean;
+    procedure SetSp(Sp:Integer);
   public
     function Next(const Size: UInt8 = 1): Boolean;
     function IsIA64: Boolean;
@@ -546,6 +548,11 @@ begin
     InternalData.OpSizeY := SIZE_QWORD;
     InternalData.OpSizeV := SIZE_QWORD;
   end;
+end;
+
+procedure TInstruction.SetSp(Sp: Integer);
+begin
+    InternalData.Sp:=Sp;
 end;
 
 procedure TInstruction.SetTable(Table: Byte);

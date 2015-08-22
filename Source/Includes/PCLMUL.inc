@@ -28,8 +28,8 @@ begin
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo_Ib(PInst);
   PInst^.InstID := INST_ID_PCLMULQDQ;
+  Decode_Vo_Wo_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PCLMULQDQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

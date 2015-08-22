@@ -1,0 +1,65 @@
+---------------- Log Info --------------
+Total decoded instructions = 55.
+Errors found = 0.
+Timing = 00:00:00.0018894
+-----------------------------------------
+
+----------- Instructions Str ------------
+{ Source InstStr   :   UnivInsStr }
+
+TestID 0         =  crc32  ebx,cl                                       :  crc32 ebx,cl                                      
+TestID 1         =  crc32  ebx,cx                                       :  crc32 ebx,cx                                      
+TestID 2         =  crc32  ebx,ecx                                      :  crc32 ebx,ecx                                     
+TestID 3         =  crc32  ebx,byte [ecx]                               :  crc32 ebx,byte ds:[ecx]                           
+TestID 4         =  crc32  ebx,word [ecx]                               :  crc32 ebx,word ds:[ecx]                           
+TestID 5         =  crc32  ebx,dword [ecx]                              :  crc32 ebx,dword ds:[ecx]                          
+TestID 6         =  crc32  ebx,cl                                       :  crc32 ebx,cl                                      
+TestID 7         =  crc32  ebx,cx                                       :  crc32 ebx,cx                                      
+TestID 8         =  crc32  ebx,ecx                                      :  crc32 ebx,ecx                                     
+TestID 9         =  pcmpgtq  xmm0,oword [ecx]                           :  pcmpgtq xmm0,oword ds:[ecx]                       
+TestID 10        =  pcmpgtq  xmm0,xmm1                                  :  pcmpgtq xmm0,xmm1                                 
+TestID 11        =  pcmpestri  xmm0,oword [ecx],0x0                     :  pcmpestri xmm0,oword ds:[ecx],0                   
+TestID 12        =  pcmpestri  xmm0,xmm1,0x0                            :  pcmpestri xmm0,xmm1,0                             
+TestID 13        =  pcmpestrm  xmm0,oword [ecx],0x1                     :  pcmpestrm xmm0,oword ds:[ecx],1                   
+TestID 14        =  pcmpestrm  xmm0,xmm1,0x1                            :  pcmpestrm xmm0,xmm1,1                             
+TestID 15        =  pcmpistri  xmm0,oword [ecx],0x2                     :  pcmpistri xmm0,oword ds:[ecx],2                   
+TestID 16        =  pcmpistri  xmm0,xmm1,0x2                            :  pcmpistri xmm0,xmm1,2                             
+TestID 17        =  pcmpistrm  xmm0,oword [ecx],0x3                     :  pcmpistrm xmm0,oword ds:[ecx],3                   
+TestID 18        =  pcmpistrm  xmm0,xmm1,0x3                            :  pcmpistrm xmm0,xmm1,3                             
+TestID 19        =  popcnt  bx,word [ecx]                               :  popcnt bx,word ds:[ecx]                           
+TestID 20        =  popcnt  ebx,dword [ecx]                             :  popcnt ebx,dword ds:[ecx]                         
+TestID 21        =  popcnt  bx,word [ecx]                               :  popcnt bx,word ds:[ecx]                           
+TestID 22        =  popcnt  ebx,dword [ecx]                             :  popcnt ebx,dword ds:[ecx]                         
+TestID 23        =  popcnt  bx,cx                                       :  popcnt bx,cx                                      
+TestID 24        =  popcnt  ebx,ecx                                     :  popcnt ebx,ecx                                    
+TestID 25        =  popcnt  bx,cx                                       :  popcnt bx,cx                                      
+TestID 26        =  popcnt  ebx,ecx                                     :  popcnt ebx,ecx                                    
+TestID 27        =  crc32  ebx,cl                                       :  crc32 ebx,cl                                      
+TestID 28        =  crc32  ebx,cx                                       :  crc32 ebx,cx                                      
+TestID 29        =  crc32  ebx,ecx                                      :  crc32 ebx,ecx                                     
+TestID 30        =  crc32  ebx,byte [ecx]                               :  crc32 ebx,byte ds:[ecx]                           
+TestID 31        =  crc32  ebx,word [ecx]                               :  crc32 ebx,word ds:[ecx]                           
+TestID 32        =  crc32  ebx,dword [ecx]                              :  crc32 ebx,dword ds:[ecx]                          
+TestID 33        =  crc32  ebx,cl                                       :  crc32 ebx,cl                                      
+TestID 34        =  crc32  ebx,cx                                       :  crc32 ebx,cx                                      
+TestID 35        =  crc32  ebx,ecx                                      :  crc32 ebx,ecx                                     
+TestID 36        =  pcmpgtq  xmm0,oword [ecx]                           :  pcmpgtq xmm0,oword ds:[ecx]                       
+TestID 37        =  pcmpgtq  xmm0,xmm1                                  :  pcmpgtq xmm0,xmm1                                 
+TestID 38        =  pcmpestri  xmm0,oword [ecx],0x0                     :  pcmpestri xmm0,oword ds:[ecx],0                   
+TestID 39        =  pcmpestri  xmm0,xmm1,0x0                            :  pcmpestri xmm0,xmm1,0                             
+TestID 40        =  pcmpestrm  xmm0,oword [ecx],0x1                     :  pcmpestrm xmm0,oword ds:[ecx],1                   
+TestID 41        =  pcmpestrm  xmm0,xmm1,0x1                            :  pcmpestrm xmm0,xmm1,1                             
+TestID 42        =  pcmpistri  xmm0,oword [ecx],0x2                     :  pcmpistri xmm0,oword ds:[ecx],2                   
+TestID 43        =  pcmpistri  xmm0,xmm1,0x2                            :  pcmpistri xmm0,xmm1,2                             
+TestID 44        =  pcmpistrm  xmm0,oword [ecx],0x3                     :  pcmpistrm xmm0,oword ds:[ecx],3                   
+TestID 45        =  pcmpistrm  xmm0,xmm1,0x3                            :  pcmpistrm xmm0,xmm1,3                             
+TestID 46        =  popcnt  bx,word [ecx]                               :  popcnt bx,word ds:[ecx]                           
+TestID 47        =  popcnt  ebx,dword [ecx]                             :  popcnt ebx,dword ds:[ecx]                         
+TestID 48        =  popcnt  bx,word [ecx]                               :  popcnt bx,word ds:[ecx]                           
+TestID 49        =  popcnt  ebx,dword [ecx]                             :  popcnt ebx,dword ds:[ecx]                         
+TestID 50        =  popcnt  bx,cx                                       :  popcnt bx,cx                                      
+TestID 51        =  popcnt  ebx,ecx                                     :  popcnt ebx,ecx                                    
+TestID 52        =  popcnt  bx,cx                                       :  popcnt bx,cx                                      
+TestID 53        =  popcnt  ebx,ecx                                     :  popcnt ebx,ecx                                    
+TestID 54        =  add  byte [eax],al                                  :  add byte ds:[eax],al                              
+-----------------------------------------

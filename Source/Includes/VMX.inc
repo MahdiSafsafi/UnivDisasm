@@ -28,8 +28,8 @@ begin
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Gy_Mo(PInst);
   PInst^.InstID := INST_ID_INVEPT;
+  Decode_Gy_Mo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_INVEPT);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -43,8 +43,8 @@ begin
   PInst^.InstCategory := INST_CATEGORY_NIL;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Gy_Mo(PInst);
   PInst^.InstID := INST_ID_INVVPID;
+  Decode_Gy_Mo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_INVVPID);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

@@ -29,8 +29,8 @@ begin
     INST_CATEGORY_PACKED or INST_CATEGORY_SIMD);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_PCMPGTQ;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PCMPGTQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -45,8 +45,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   MakeMndPrefixF2(PInst);
-  Decode_Gy_Eb(PInst);
   PInst^.InstID := INST_ID_CRC32;
+  Decode_Gy_Eb(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_CRC32);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -61,8 +61,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   MakeMndPrefixF2(PInst);
-  Decode_Gy_Ev(PInst);
   PInst^.InstID := INST_ID_CRC32;
+  Decode_Gy_Ev(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_CRC32);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -77,8 +77,8 @@ begin
     INST_CATEGORY_STRING);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo_Ib(PInst);
   PInst^.InstID := INST_ID_PCMPESTRM;
+  Decode_Vo_Wo_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PCMPESTRM);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -93,8 +93,8 @@ begin
     INST_CATEGORY_STRING);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo_Ib(PInst);
   PInst^.InstID := INST_ID_PCMPESTRI;
+  Decode_Vo_Wo_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PCMPESTRI);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -109,8 +109,8 @@ begin
     INST_CATEGORY_STRING);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo_Ib(PInst);
   PInst^.InstID := INST_ID_PCMPISTRM;
+  Decode_Vo_Wo_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PCMPISTRM);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -125,8 +125,8 @@ begin
     INST_CATEGORY_STRING);
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Wo_Ib(PInst);
   PInst^.InstID := INST_ID_PCMPISTRI;
+  Decode_Vo_Wo_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_PCMPISTRI);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

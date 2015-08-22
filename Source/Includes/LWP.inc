@@ -26,8 +26,8 @@ begin
   // LLWPCB  Ry
   PInst^.InstGroups := INST_GRP_LWP;
   PInst^.FlagsIndex := $00;
-  Decode_Ry(PInst);
   PInst^.InstID := INST_ID_LLWPCB;
+  Decode_Ry(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_LLWPCB);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -39,8 +39,8 @@ begin
   // SLWPCB  Ry
   PInst^.InstGroups := INST_GRP_LWP;
   PInst^.FlagsIndex := $00;
-  Decode_Ry(PInst);
   PInst^.InstID := INST_ID_SLWPCB;
+  Decode_Ry(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_SLWPCB);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -52,8 +52,8 @@ begin
   // LWPINS  By,Ed,Id
   PInst^.InstGroups := INST_GRP_LWP;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ed_Id(PInst);
   PInst^.InstID := INST_ID_LWPINS;
+  Decode_By_Ed_Id(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_LWPINS);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -65,8 +65,8 @@ begin
   // LWPVAL  By,Ed,Id
   PInst^.InstGroups := INST_GRP_LWP;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ed_Id(PInst);
   PInst^.InstID := INST_ID_LWPVAL;
+  Decode_By_Ed_Id(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_LWPVAL);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

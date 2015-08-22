@@ -27,8 +27,8 @@ begin
   PInst^.InstGroups := INST_GRP_SSE4A;
   PInst^.FlagsIndex := $00;
   MakeMndPrefixF2(PInst);
-  Decode_Mq_Vo(PInst);
   PInst^.InstID := INST_ID_MOVNTSD;
+  Decode_Mq_Vo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_MOVNTSD);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -41,8 +41,8 @@ begin
   PInst^.InstGroups := INST_GRP_SSE4A;
   PInst^.FlagsIndex := $00;
   MakeMndPrefixF3(PInst);
-  Decode_Md_Vo(PInst);
   PInst^.InstID := INST_ID_MOVNTSS;
+  Decode_Md_Vo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_MOVNTSS);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -55,8 +55,8 @@ begin
   PInst^.InstGroups := INST_GRP_SSE4A;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Uo_Ib_Ib(PInst);
   PInst^.InstID := INST_ID_EXTRQ;
+  Decode_Uo_Ib_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_EXTRQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -69,8 +69,8 @@ begin
   PInst^.InstGroups := INST_GRP_SSE4A;
   PInst^.FlagsIndex := $00;
   MakeMndPrefixF2(PInst);
-  Decode_Vo_Uo_Ib_Ib(PInst);
   PInst^.InstID := INST_ID_INSERTQ;
+  Decode_Vo_Uo_Ib_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_INSERTQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -83,8 +83,8 @@ begin
   PInst^.InstGroups := INST_GRP_SSE4A;
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
-  Decode_Vo_Uo(PInst);
   PInst^.InstID := INST_ID_EXTRQ;
+  Decode_Vo_Uo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_EXTRQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -97,8 +97,8 @@ begin
   PInst^.InstGroups := INST_GRP_SSE4A;
   PInst^.FlagsIndex := $00;
   MakeMndPrefixF2(PInst);
-  Decode_Vo_Uo(PInst);
   PInst^.InstID := INST_ID_INSERTQ;
+  Decode_Vo_Uo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_INSERTQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

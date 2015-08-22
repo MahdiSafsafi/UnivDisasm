@@ -27,8 +27,8 @@ begin
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.InstCategory := INST_CATEGORY_BMI1;
   PInst^.FlagsIndex := $00;
-  Decode_Gy_Ey_Id(PInst);
   PInst^.InstID := INST_ID_BEXTR;
+  Decode_Gy_Ey_Id(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BEXTR);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -40,8 +40,8 @@ begin
   // BLCFILL  By,Ey
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLCFILL;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLCFILL);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -53,8 +53,8 @@ begin
   // BLSFILL  By,Ey
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLSFILL;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLSFILL);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -66,8 +66,8 @@ begin
   // BLCS  By,Ey
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLCS;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLCS);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -79,8 +79,8 @@ begin
   // TZMSK  By,Ey
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_TZMSK;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_TZMSK);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -92,8 +92,8 @@ begin
   // BLCIC  By,Ey
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLCIC;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLCIC);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -105,8 +105,8 @@ begin
   // BLSIC  By,Ey
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLSIC;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLSIC);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -118,8 +118,8 @@ begin
   // T1MSKC  By,Ey
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_T1MSKC;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_T1MSKC);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -131,8 +131,8 @@ begin
   // BLCMSK  By,Ey
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLCMSK;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLCMSK);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -144,8 +144,8 @@ begin
   // BLCI  By,Ey
   PInst^.InstGroups := INST_GRP_TBM;
   PInst^.FlagsIndex := $00;
-  Decode_By_Ey(PInst);
   PInst^.InstID := INST_ID_BLCI;
+  Decode_By_Ey(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_BLCI);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

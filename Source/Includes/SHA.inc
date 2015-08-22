@@ -26,8 +26,8 @@ begin
   // SHA1NEXTE  Vo,Wo
   PInst^.InstGroups := INST_GRP_SHA;
   PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_SHA1NEXTE;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_SHA1NEXTE);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -39,8 +39,8 @@ begin
   // SHA1MSG1  Vo,Wo
   PInst^.InstGroups := INST_GRP_SHA;
   PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_SHA1MSG1;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_SHA1MSG1);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -52,8 +52,8 @@ begin
   // SHA1MSG2  Vo,Wo
   PInst^.InstGroups := INST_GRP_SHA;
   PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_SHA1MSG2;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_SHA1MSG2);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -65,8 +65,8 @@ begin
   // SHA256RNDS2  Vo,Wo
   PInst^.InstGroups := INST_GRP_SHA;
   PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_SHA256RNDS2;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_SHA256RNDS2);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -78,8 +78,8 @@ begin
   // SHA256MSG1  Vo,Wo
   PInst^.InstGroups := INST_GRP_SHA;
   PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_SHA256MSG1;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_SHA256MSG1);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -91,8 +91,8 @@ begin
   // SHA256MSG2  Vo,Wo
   PInst^.InstGroups := INST_GRP_SHA;
   PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo(PInst);
   PInst^.InstID := INST_ID_SHA256MSG2;
+  Decode_Vo_Wo(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_SHA256MSG2);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -104,8 +104,8 @@ begin
   // SHA1RNDS4  Vo,Wo,Ib
   PInst^.InstGroups := INST_GRP_SHA;
   PInst^.FlagsIndex := $00;
-  Decode_Vo_Wo_Ib(PInst);
   PInst^.InstID := INST_ID_SHA1RNDS4;
+  Decode_Vo_Wo_Ib(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_SHA1RNDS4);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

@@ -134,10 +134,12 @@ const
     SIZE_64_BYTE, { VL512 }
     0 { VL??? } //
     );
+  W2Size: array [Boolean] of UInt8 = (SIZE_DWORD, SIZE_QWORD);
 var
   Tuple, N: UInt8;
   bc, W: Boolean;
   VL, VLSize: UInt8;
+  ins: Word;
 begin
   N := 0;
   W := PInst^.Fields.W;
@@ -147,6 +149,7 @@ begin
     VL := VLSize shr 5
   else
     VL := 3;
+  ins := PInst^.InstID;
   Tuple := PInst^.InternalData.Tuple;
 
   case Tuple of
@@ -155,20 +158,23 @@ begin
     TT_FVM: N := VLSize;
     TT_T1S:
       begin
-        case InputSize of
-          SIZE_1_BYTE: N := SIZE_1_BYTE;
-          SIZE_2_BYTE: N := SIZE_2_BYTE;
-          SIZE_4_BYTE: N := SIZE_4_BYTE;
-          SIZE_8_BYTE: N := SIZE_8_BYTE;
+        { Instructions marked with SP_DISP8_VE must be
+          handled first, because those instructions doesn't
+          follow the traditional T1S disp8*N rules.
+          ==> Special disp8 *N form !
+        }
+        if PInst^.InternalData.Sp and SP_DISP8_VE_32 = SP_DISP8_VE_32 then
+          N := SIZE_4_BYTE
+        else if PInst^.InternalData.Sp and SP_DISP8_VE_64 = SP_DISP8_VE_64 then
+          N := SIZE_8_BYTE
         else
-          begin
-            if W then
-              N := SIZE_8_BYTE
-            else
-              N := SIZE_4_BYTE;
+          case InputSize of
+            SIZE_1_BYTE: N := SIZE_1_BYTE;
+            SIZE_2_BYTE: N := SIZE_2_BYTE;
+            SIZE_4_BYTE: N := SIZE_4_BYTE;
+            SIZE_8_BYTE: N := SIZE_8_BYTE;
+          else N := W2Size[W];
           end;
-
-        end;
       end;
     TT_T1F:
       begin
@@ -245,7 +251,7 @@ begin
     Decode_PREFIXES_DREX_void(PInst);
 
   DispSize := FlagsSizeToDispSize[(F and MF_SIZE_MASK) shr 4];
-  if PInst^.Sib.Value.Base = $05 then
+  if (DispSize = 0) and (PInst^.Sib.Value.Base = $05) then
   begin
     if PInst^.ModRm.Value.&Mod = $00 then
       DispSize := SIZE_DWORD

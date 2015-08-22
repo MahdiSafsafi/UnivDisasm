@@ -26,8 +26,8 @@ begin
   // INT1  void
   PInst^.InstGroups := INST_GRP_ICEBP;
   PInst^.FlagsIndex := $00;
-  Decode_void(PInst);
   PInst^.InstID := INST_ID_INT1;
+  Decode_void(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_INT1);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

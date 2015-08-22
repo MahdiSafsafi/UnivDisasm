@@ -28,8 +28,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_CACHEABILITY_CONTROL or
     INST_CATEGORY_STORE);
   PInst^.FlagsIndex := $00;
-  Decode_My_Gy(PInst);
   PInst^.InstID := INST_ID_MOVNTI;
+  Decode_My_Gy(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_MOVNTI);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -43,8 +43,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_CACHEABILITY_CONTROL or
     INST_CATEGORY_LOAD);
   PInst^.FlagsIndex := $00;
-  Decode_void(PInst);
   PInst^.InstID := INST_ID_LFENCE;
+  Decode_void(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_LFENCE);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -58,8 +58,8 @@ begin
   PInst^.InstCategory := (INST_CATEGORY_CACHEABILITY_CONTROL or
     INST_CATEGORY_LOAD or INST_CATEGORY_STORE);
   PInst^.FlagsIndex := $00;
-  Decode_void(PInst);
   PInst^.InstID := INST_ID_MFENCE;
+  Decode_void(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_MFENCE);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

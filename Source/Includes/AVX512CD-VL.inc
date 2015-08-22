@@ -27,8 +27,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512CD or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefixF3(PInst);
-  Decode_Vn_mK(PInst);
   PInst^.InstID := INST_ID_VPBROADCASTMB2Q;
+  Decode_Vn_mK(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPBROADCASTMB2Q);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -41,8 +41,8 @@ begin
   PInst^.InstGroups := (INST_GRP_AVX512CD or INST_GRP_VL);
   PInst^.FlagsIndex := $00;
   MakeMndPrefixF3(PInst);
-  Decode_Vn_mK(PInst);
   PInst^.InstID := INST_ID_VPBROADCASTMW2D;
+  Decode_Vn_mK(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPBROADCASTMW2D);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -56,8 +56,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FV);
-  Decode_Vn_K_z_B64_Wn(PInst);
   PInst^.InstID := INST_ID_VPLZCNTQ;
+  Decode_Vn_K_z_B64_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPLZCNTQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -71,8 +71,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FV);
-  Decode_Vn_K_z_B32_Wn(PInst);
   PInst^.InstID := INST_ID_VPLZCNTD;
+  Decode_Vn_K_z_B32_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPLZCNTD);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -86,8 +86,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FV);
-  Decode_Vn_K_z_B64_Wn(PInst);
   PInst^.InstID := INST_ID_VPCONFLICTQ;
+  Decode_Vn_K_z_B64_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPCONFLICTQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -101,8 +101,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FV);
-  Decode_Vn_K_z_B32_Wn(PInst);
   PInst^.InstID := INST_ID_VPCONFLICTD;
+  Decode_Vn_K_z_B32_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPCONFLICTD);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

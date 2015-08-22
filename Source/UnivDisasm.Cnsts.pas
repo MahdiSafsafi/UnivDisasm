@@ -394,6 +394,9 @@ const
   MAX_INST_STR_LENGTH = 128;
 
   { Internal constants used by UnivDisasm }
+  SP_DISP8_VE = $01;
+  SP_DISP8_VE_32 = SP_DISP8_VE or $02;
+  SP_DISP8_VE_64 = SP_DISP8_VE or $04;
   MagicRexMask = $80;
   PM64 = CPUX64; // Only for x64.
   I64 = CPUX32; // Invalid when PM64.

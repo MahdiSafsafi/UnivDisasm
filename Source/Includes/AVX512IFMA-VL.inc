@@ -29,8 +29,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FV);
-  Decode_Vn_Kw_z_Hn_B64_Wn(PInst);
   PInst^.InstID := INST_ID_VPMADD52LUQ;
+  Decode_Vn_Kw_z_Hn_B64_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPMADD52LUQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);
@@ -45,8 +45,8 @@ begin
   PInst^.FlagsIndex := $00;
   MakeMndPrefix66(PInst);
   PInst^.SetTuple4VL(TT_FV);
-  Decode_Vn_Kw_z_Hn_B64_Wn(PInst);
   PInst^.InstID := INST_ID_VPMADD52HUQ;
+  Decode_Vn_Kw_z_Hn_B64_Wn(PInst);
 {$IFDEF NEED_DISPLAY}
   MoveMnem(PInst, MNEM_VPMADD52HUQ);
   SyntaxManager.SyntaxDecoderArray[PInst.InternalData.SyntaxID](PInst);

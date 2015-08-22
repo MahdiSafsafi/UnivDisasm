@@ -84,7 +84,7 @@ ins.Arg3.Mem.BaseReg = REG_RDX
 
 UnivDisasm has a powerful analyzer, make it easy to find errors and detect for warnings.
 
-*Features*:
+**Features**:
 
 -Detect instructions that may cause crash if executed.
 

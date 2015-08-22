@@ -19,6 +19,12 @@ AVX512F, AVX512BW, AVX512CD, AVX512DQ, AVX512ER, AVX512PF, AVX512VBMI, AVX512IFM
 
 -Support REX, DREX, VEX, EVEX and XOP instructions encoding.
 
+-EFlags/RFlags: UnivDisasm can recognize instructions that may affect, modify or reset EFlags register. 
+
+-Instructions are grouped into two order: instructions groups and instructions categories. And each instruction has its own identifier ,make it easy to find and match decoded instructions.
+
+-Branch instructions: UnivDisasm recognize branch and calculate the destination address, make it easy for you to follow branch instructions. 
+
 -Support VSIB memory addressing.
 
 -Support Intel enhancement syntax: Masking, Zeroing, Rounding, Broadcasting.
@@ -26,6 +32,8 @@ AVX512F, AVX512BW, AVX512CD, AVX512DQ, AVX512ER, AVX512PF, AVX512VBMI, AVX512IFM
 -Support the compressed displacement disp8*N.
 
 -Safe: UnivDisasm was designed to be safe, that’s mean it’s safe for multi threads (thread safe).And provides build-in mechanisms for errors and safe bytes reading.
+
+-Faster: Due to its coding architecture, UnivDisasm is considered to be faster to decode instructions.
 
 -Customized: UnivDisasm has an open architecture allowing for easy to extend for others syntax. You can have your own assembler syntax with less code writing!
 
@@ -66,6 +74,7 @@ ins.Disp.N     = 64
 ins.Disp.Value = 0x1FC0
 ins.Disp.Size  = SIZE_WORD
 ins.InstID     = INST_ID_VADDPD
+ins.Mnem       = INST_MNEM_VADDPD
 ins.InstGroups = INST_GRP_AVX512F + INST_GRP_VL
 ins.nArg       = 3 
 ins.Arg1.Flags = AF_REG

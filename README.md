@@ -81,13 +81,21 @@ ins.Arg3.Mem.BaseReg = REG_RDX
 ...
 ```
 #Analyzer
+
 UnivDisasm has a powerful analyzer, make it easy to find errors and detect for warnings.
+
 *Features*:
+
 -Detect instructions that may cause crash if executed.
+
 -Detect wrong prefixes combining.
+
 -Detect wrong address memory.
+
 -Detect wrong segment registers.
+
 -Detect for unlockable instructions.
+
 -Detect instructions that doesn’t initialize BND registers.
 
 Errors recognized by Analyzer:

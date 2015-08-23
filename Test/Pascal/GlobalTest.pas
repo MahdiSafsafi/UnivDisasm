@@ -11,6 +11,7 @@ uses
   x32.avx512cd,
   x32.avx512er,
   x32.avx512f,
+  x32.avx_gather,
   x32.avx_scalar,
   x32.bmi,
   x32.bmi2,
@@ -29,6 +30,7 @@ uses
   x64.avx512er,
   x64.avx512f,
   x64.avx512pf,
+  x64.avx_gather,
   x64.avx_scalar,
   x64.bmi,
   x64.bmi2,
@@ -54,6 +56,7 @@ begin
   x32.avx512cd.Test();
   x32.avx512er.Test();
   x32.avx512f.Test();
+  x32.avx_gather.Test();
   x32.avx_scalar.Test();
   x32.bmi.Test();
   x32.bmi2.Test();
@@ -72,6 +75,7 @@ begin
   x64.avx512er.Test();
   x64.avx512f.Test();
   x64.avx512pf.Test();
+  x64.avx_gather.Test();
   x64.avx_scalar.Test();
   x64.bmi.Test();
   x64.bmi2.Test();

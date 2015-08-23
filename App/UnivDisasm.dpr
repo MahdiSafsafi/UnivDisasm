@@ -28,7 +28,8 @@ program UnivDisasm;
 uses
   System.SysUtils,
   UnivDisasm.Disasm,
-  UnivDisasm.Cnsts;
+  UnivDisasm.Cnsts,
+  UnivDisasm.Syntax.UnivSyntax;
 
 var
   Param: string;
@@ -146,6 +147,8 @@ begin
           ins.Arch := LCPUX;
           ins.Vendor := Vendor;
           ins.Addr := P;
+          ins.Syntax:=SX_UNIV_SYNTAX;
+          ins.SyntaxOptions:=USO_DEFAULT;
           Inc(sz, Disasm(@ins));
           WriteLn(ins.InstStr);
         end;

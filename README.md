@@ -40,6 +40,11 @@ AVX512F, AVX512BW, AVX512CD, AVX512DQ, AVX512ER, AVX512PF, AVX512VBMI, AVX512IFM
 **Examples**
 The left side is the instructions opcodes and the right side is the full instructions str decoded by UnivDisasm.
 ```
+[$48,$8B,$04,$55,$56,$34,$12,$00] : # mov rax,qword [rdx*2+0x00123456]
+[$48,$69,$C1,$05,$00,$00,$00] :     # imul rax,rcx,00000005
+[$FF,$35,$23,$01,$00,$00    ] :     # push qword [rip 0x00000123]
+[$D8,$C7                    ] :     # fadd st(0),st(7)
+[$DC,$EF                    ] :     # fsub st(7),st(0)
 [$62,$01,$95,$C7,$58,$F4                 ]  :  # vaddpd zmm30{k7}{z},zmm29,zmm28         
 [$62,$01,$95,$10,$58,$F4                 ]  :  # vaddpd zmm30,zmm29,zmm28,{rn-sae}       
 [$62,$01,$95,$70,$58,$F4                 ]  :  # vaddpd zmm30,zmm29,zmm28,{rz-sae}       

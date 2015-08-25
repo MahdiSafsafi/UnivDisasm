@@ -31,23 +31,12 @@ uses
   UnivDisasm.Cnsts,
   UnivDisasm.Syntax.UnivSyntax;
 
-var
-  Param: string;
-  Vendor, LCPUX: UInt8;
-  L, i, sz: Integer;
-  Command: Integer;
-  S, sop: string;
-  OpCodesStr: TArray<String>;
-  OpCodes: TArray<Byte>;
-  ins: TInstruction;
-  P: PByte;
-
 procedure DoHelp();
 begin
   WriteLn( //
     'https://github.com/MahdiSafsafi/UnivDisasm' + #13#10, //
     'Usage:' + #13#10, //
-    'UnivDisasm [<Options>][<OpCodes>]' + #13#10, //
+    'UnivDisasm [<Options>][<OpCodes>...]' + #13#10, //
     'Options:' + #13#10, //
     '-h : Help' + #13#10, //
     '-v : Vendor = <*Intel,AMD,CENTAUR>' + #13#10, //
@@ -62,12 +51,40 @@ const
   COMMAND_VENDOR = 1;
   COMMAND_CPUX = 2;
 
+procedure Decode(Address: PByte; nLength, Vendor, Arch: Integer);
+var
+  ins: TInstruction;
+  P: PByte;
+  sz: Integer;
+begin
+  P := Address;
+  sz := 0;
+  while (sz < nLength) do
+  begin
+    ins := default (TInstruction);
+    ins.Arch := Arch;
+    ins.Vendor := Vendor;
+    ins.Addr := P;
+    ins.Syntax := SX_UNIV_SYNTAX;
+    ins.SyntaxOptions := USO_DEFAULT;
+    Inc(sz, Disasm(@ins));
+    WriteLn(ins.InstStr);
+  end;
+end;
+
+var
+  Param: string;
+  LVendor, LCPUX: UInt8;
+  L, i: Integer;
+  Command: Integer;
+  S, sop: string;
+  OpCodesStr: TArray<String>;
+  OpCodes: TArray<Byte>;
+
 begin
   { Default value }
-  Vendor := VENDOR_INTEL;
+  LVendor := VENDOR_INTEL;
   LCPUX := CPUX32;
-  L := 0;
-  sz := 0;
   SetLength(OpCodes, 32);
   WriteLn('');
   Command := COMMAND_NIL;
@@ -82,11 +99,11 @@ begin
             begin
               Command := COMMAND_NIL;
               if SameText('intel', Param) then
-                Vendor := VENDOR_INTEL
+                LVendor := VENDOR_INTEL
               else if SameText('amd', Param) then
-                Vendor := VENDOR_AMD
+                LVendor := VENDOR_AMD
               else if SameText('centaur', Param) then
-                Vendor := VENDOR_CENTAUR
+                LVendor := VENDOR_CENTAUR
               else
               begin
                 WriteLn('Error: unrecognized vendor.');
@@ -126,8 +143,8 @@ begin
         end
         else
         begin
-          OpCodesStr := Param.Split([' ', ',']);
           L := 0;
+          OpCodesStr := Param.Split([' ', ',']);
           for S in OpCodesStr do
           begin
             sop := S.Trim;
@@ -136,21 +153,7 @@ begin
             OpCodes[L] := StrToInt(sop);
             Inc(L);
           end;
-        end;
-      end;
-      if L > 0 then
-      begin
-        P := @OpCodes[0];
-        while (sz < L) do
-        begin
-          ins := default (TInstruction);
-          ins.Arch := LCPUX;
-          ins.Vendor := Vendor;
-          ins.Addr := P;
-          ins.Syntax:=SX_UNIV_SYNTAX;
-          ins.SyntaxOptions:=USO_DEFAULT;
-          Inc(sz, Disasm(@ins));
-          WriteLn(ins.InstStr);
+          Decode(@OpCodes[0], L, LVendor, LCPUX);
         end;
       end;
     end

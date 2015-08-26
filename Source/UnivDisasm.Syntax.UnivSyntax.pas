@@ -528,16 +528,16 @@ begin
     S := GetRegName(PInst^.Syntax, Arg.Reg);
     fMoveChars(PInst, S);
   end
+  else if Assigned(PInst^.DstAddr.Addr) then
+  begin
+    if PInst^.DstAddr.Flags and JF_FAR <> 0 then
+      fMoveChars(PInst, 'far ');
+    fMoveChar(PInst, '@');
+    ufIntToHex(UInt64(PInst^.DstAddr.Addr), CPUSize * nZ, PInst);
+  end
   else if Arg.Flags and AF_TYPE_MASK = AF_MEM then
   begin
-    if Assigned(PInst^.DstAddr.Addr) then
-    begin
-      if PInst^.DstAddr.Flags and JF_FAR <> 0 then
-        fMoveChars(PInst, 'far ');
-      fMoveChar(PInst, '@');
-      ufIntToHex(UInt64(PInst^.DstAddr.Addr), CPUSize * nZ, PInst);
-    end
-    else if Options and USO_SHOW_MEM_SIZE <> 0 then
+    if Options and USO_SHOW_MEM_SIZE <> 0 then
     begin
       if (PInst^.Fields.bc) and (Arg.Flags and AF_BROADCAST32 = AF_BROADCAST32) then
       begin

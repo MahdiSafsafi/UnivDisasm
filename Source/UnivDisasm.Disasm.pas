@@ -163,7 +163,7 @@ type
     MagicRex: Byte;
     Seg: TReg;
     SyntaxID: UInt8;
-    Sp:Integer;
+    Sp: Integer;
     Tuple: UInt8;
   end;
 
@@ -249,6 +249,7 @@ type
     InternalData: TInternalData; // Internal data used by UnivDisasm.==> Ignore.
     Warnings: UInt32; // Sets of WARN_XX.
     Errors: UInt32; // Sets of ERROR_XX.
+    Options: Integer;//Sets of GO_
     UserTag: UInt64;
   private
     procedure SetSizeToF64();
@@ -263,7 +264,7 @@ type
     function GetEflags: TEFlags;
     function SupportFlag(AFlag: Word): Word;
     function IsOpcVPrefix: Boolean;
-    procedure SetSp(Sp:Integer);
+    procedure SetSp(Sp: Integer);
   public
     function Next(const Size: UInt8 = 1): Boolean;
     function IsIA64: Boolean;
@@ -461,6 +462,7 @@ function Disasm(PInst: PInstruction): ShortInt;
 var
   P: PByte;
 begin
+  Result := 0;
   PInst^.AddressMode := DefAddressMode[PInst^.Arch];
   PInst^.NextInst := PInst^.Addr;
   PInst^.InternalData.OpSizeY := SIZE_DWORD;
@@ -552,7 +554,7 @@ end;
 
 procedure TInstruction.SetSp(Sp: Integer);
 begin
-    InternalData.Sp:=Sp;
+  InternalData.Sp := Sp;
 end;
 
 procedure TInstruction.SetTable(Table: Byte);

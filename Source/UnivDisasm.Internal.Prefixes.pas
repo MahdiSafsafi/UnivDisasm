@@ -83,12 +83,16 @@ begin
 end;
 
 const
-  mmmmmToEscProc: array [0 .. 4] of TDecoderProc = ( //
+  mmmmmToEscProc: array [0 .. 7] of TDecoderProc = ( //
     JumpInvalid, { }
     JumpToTab2, { 00001: implied 0F leading opcode byte }
     JumpToTab38, { 00010: implied 0F 38 leading opcode bytes }
     JumpToTab3A, { 00011: implied 0F 3A leading opcode bytes }
+    JumpInvalid, { }
+    JumpInvalid, { }
+    JumpInvalid, { }
     JumpInvalid { }
+
     );
 
   RSel: array [Boolean] of Byte = ($00, $08);
@@ -370,7 +374,7 @@ begin
   UpdateOpSizeW(PInst);
   if (PInst^.Fields.mmmmm = $00) or (PInst^.Fields.mmmmm > $03) then
     PInst^.Error(ERROR_INVALID_EVEX_ESCAPE);
-  mmmmmToEscProc[PInst^.Fields.mmmmm](PInst);
+  mmmmmToEscProc[PInst^.Fields.mmmmm and 7](PInst);
 end;
 
 procedure Decode_PREFIXES_VEX3_void(PInst: PInstruction);
@@ -399,7 +403,7 @@ begin
   UpdateOpSizeW(PInst);
   if (PInst^.Fields.mmmmm = $00) or (PInst^.Fields.mmmmm > $03) then
     PInst^.Error(ERROR_INVALID_VEX_ESCAPE);
-  mmmmmToEscProc[PInst^.Fields.mmmmm](PInst);
+  mmmmmToEscProc[PInst^.Fields.mmmmm and 7](PInst);
 end;
 
 procedure Decode_PREFIXES_VEX2_void(PInst: PInstruction);

@@ -337,7 +337,8 @@ begin
     VA := PInst^.NextInst;
   P := VA + Value;
   try
-    T := P^;
+    if PInst^.Options and GO_TEST_ADDRESS <> 0 then
+      T := P^;
   except
     PInst^.Error(ERROR_INVALID_EFFECTIVE_ADDRESS);
   end;

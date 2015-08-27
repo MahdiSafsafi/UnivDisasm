@@ -1,0 +1,27 @@
+{
+        "search_pathes": 
+    [
+        {
+            "pathes": "Source;Source\\Includes",
+            "platforms": "Win32;Win64;OSX32"
+        }
+    ],
+    "browsing_pathes": 
+    [
+        {
+            "pathes": "Source;Source\\Includes",
+            "platforms": "Win32;Win64;OSX32"
+        }
+    ],
+
+    "source_folders":
+    [
+        {
+            "folder": "Source\\Includes",
+            "base": "Source",
+            "recursive": true,
+            "filter": "*;*.*"
+        }
+    ],
+
+}

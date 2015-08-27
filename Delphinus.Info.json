@@ -1,0 +1,10 @@
+{
+    "id": "{59BD0788-958E-4AB9-A0BA-75AA617E56FE}",
+    "name": "UnivDisasm",
+    "license_type": "MPL2",
+    "license_file": "LICENSE",
+    "platforms": "Win32;Win64",
+    "first_version": "v1",
+	"package_compiler_min": 23,
+    "compiler_min": 23
+}

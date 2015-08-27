@@ -156,3 +156,5 @@ Warnings recognized by Analyzer:
   WARN_BND_NO_INIT  : Instruction doesn't init bnd regs.
   WARN_INDEX_REG_NOT_USED_IN_EAC  : Index register is not used in effective address calculation.
 ```
+#Delphinus-Support :
+Do you use Delphinus ? You may want to install UnivDisasm from Delphinus.

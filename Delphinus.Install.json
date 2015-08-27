@@ -22,6 +22,6 @@
             "recursive": true,
             "filter": "*;*.*"
         }
-    ],
+    ]
 
 }

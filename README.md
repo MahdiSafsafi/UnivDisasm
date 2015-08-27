@@ -94,6 +94,9 @@ ins.Arg3.Mem.BaseReg = REG_RDX
 ...
 ...
 ```
+#Sample GUI
+![GUI](https://raw.githubusercontent.com/MahdiSafsafi/UnivDisasm/master/GUI/GUI.PNG)
+
 #Analyzer
 
 UnivDisasm has a powerful analyzer, make it easy to find errors and detect for warnings.

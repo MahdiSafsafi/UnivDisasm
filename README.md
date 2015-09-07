@@ -31,6 +31,8 @@ AVX512F, AVX512BW, AVX512CD, AVX512DQ, AVX512ER, AVX512PF, AVX512VBMI, AVX512IFM
 
 -Support the compressed displacement disp8*N.
 
+-Reconize pseudo-ops instructions such as CMPPS.
+
 -Safe: UnivDisasm was designed to be safe, that’s mean it’s safe for multi threads (thread safe).And provides built-in mechanisms for errors and safe bytes reading.
 
 -Faster: Due to its coding architecture, UnivDisasm is considered to be faster to decode instructions.
@@ -94,7 +96,7 @@ ins.Arg3.Mem.BaseReg = REG_RDX
 ...
 ...
 ```
-#Sample GUI
+#Simple GUI
 ![GUI](https://raw.githubusercontent.com/MahdiSafsafi/UnivDisasm/master/GUI/GUI.PNG)
 
 #Analyzer

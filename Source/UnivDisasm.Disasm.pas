@@ -249,7 +249,7 @@ type
     InternalData: TInternalData; // Internal data used by UnivDisasm.==> Ignore.
     Warnings: UInt32; // Sets of WARN_XX.
     Errors: UInt32; // Sets of ERROR_XX.
-    Options: Integer;//Sets of GO_
+    Options: Integer; // Sets of GO_
     UserTag: UInt64;
   private
     procedure SetSizeToF64();
@@ -536,8 +536,11 @@ end;
 
 procedure TInstruction.SetSizeToDf64;
 begin
-  InternalData.OpSizeV := SIZE_QWORD;
-  InternalData.OpSizeY := SIZE_QWORD;
+  if Arch = CPUX64 then
+  begin
+    InternalData.OpSizeV := SIZE_QWORD;
+    InternalData.OpSizeY := SIZE_QWORD;
+  end;
   if (Vendor = VENDOR_AMD) and (Prefixes.OpSizePrf.Flags and PF_USED <> 0) then
     InternalData.OpSizeV := SIZE_WORD;
 end;

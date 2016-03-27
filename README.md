@@ -5,39 +5,28 @@
 
 **Features**:
 
--Support x86 and x86-64 architectures.
-
--Support Intel and AMD instructions.
-
--Support mostly all instructions found in Intel and AMD documentations, including:
-
-FPU,MMX,SSE,SSE2,SSE3,SSSE3,SSE4.1,SSE4.2,SSE5,3DNOW,AVX,AVX2 ,FMA,FMA4.
-
-AES, MPX, F16C, TSX, VME, BMI, BMI2 …
-
-AVX512F, AVX512BW, AVX512CD, AVX512DQ, AVX512ER, AVX512PF, AVX512VBMI, AVX512IFMA.
-
--Support REX, DREX, VEX, EVEX and XOP instructions encoding.
-
--EFlags/RFlags: UnivDisasm can recognize instructions that may affect, modify or reset EFlags register. 
-
--Instructions are grouped into two order: instructions groups and instructions categories. And each instruction has its own identifier ,make it easy to find and match decoded instructions.
-
--Branch instructions: UnivDisasm recognize branch and calculate the destination address, make it easy for you to follow branch instructions. 
-
--Support VSIB memory addressing.
-
--Support Intel enhancement syntax: Masking, Zeroing, Rounding, Broadcasting.
-
--Support the compressed displacement disp8*N.
-
--Reconize pseudo-ops instructions such as CMPPS.
-
--Safe: UnivDisasm was designed to be safe, that’s mean it’s safe for multi threads (thread safe).And provides built-in mechanisms for errors and safe bytes reading.
-
--Faster: Due to its coding architecture, UnivDisasm is considered to be faster to decode instructions.
-
--Customized: UnivDisasm has an open architecture allowing for easy to extend for others syntax. You can have your own assembler syntax with less code writing!
+- Support x86 and x86-64 architectures.
+- Support Intel and AMD instructions.
+- Support mostly all instructions found in Intel and AMD documentations, including:
+  * FPU,MMX;
+  * SSE,SSE2,SSE3,SSSE3,SSE4.1,SSE4.2,SSE5;
+  * 3DNOW;
+  * AES, MPX, F16C, TSX, VME, BMI, BMI2 …
+  * FMA,FMA4;
+  * AVX,AVX2;
+  * AVX512F, AVX512BW, AVX512CD, AVX512DQ, AVX512ER, AVX512PF, AVX512VBMI, AVX512IFMA.
+- Support REX, DREX, VEX, EVEX and XOP instructions encoding.
+- EFlags/RFlags: UnivDisasm can recognize instructions that may affect, modify or reset EFlags register. 
+- Instructions are grouped into two order: instructions groups and instructions categories.
+- Each instruction has its own identifier make it easy to find and match decoded instructions.
+- Branch instructions: UnivDisasm recognize branch and calculate the destination address, make it easy for you to follow branch instructions. 
+- Support VSIB memory addressing.
+- Support Intel enhancement syntax: Masking, Zeroing, Rounding, Broadcasting.
+- Support the compressed displacement disp8*N.
+- Reconize pseudo-ops instructions such as CMPPS.
+- Safe: UnivDisasm was designed to be safe, that’s mean it’s safe for multi threads (thread safe).And provides built-in mechanisms for errors and safe bytes reading.
+- Faster: Due to its coding architecture, UnivDisasm is considered to be faster to decode instructions.
+- Customized: UnivDisasm has an open architecture allowing for easy to extend for others syntax. You can have your own assembler syntax with less code writing!
 
 **Examples**
 The left side is the instructions opcodes and the right side is the full instructions str decoded by UnivDisasm.
@@ -97,6 +86,8 @@ ins.Arg3.Mem.BaseReg = REG_RDX
 ...
 ```
 #Simple GUI
+A simple graphical user interface (GUI) to list UnivDisasm capability.
+
 ![GUI](https://raw.githubusercontent.com/MahdiSafsafi/UnivDisasm/master/GUI/GUI.PNG)
 
 #Analyzer
@@ -105,19 +96,14 @@ UnivDisasm has a powerful analyzer, make it easy to find errors and detect for w
 
 **Features**:
 
--Detect instructions that may cause crash if executed.
+- Detect instructions that may cause crash if executed.
+- Detect wrong prefixes combining.
+- Detect wrong address memory.
+- Detect wrong segment registers.
+- Detect for unlockable instructions.
+- Detect instructions that doesn’t initialize BND registers.
 
--Detect wrong prefixes combining.
-
--Detect wrong address memory.
-
--Detect wrong segment registers.
-
--Detect for unlockable instructions.
-
--Detect instructions that doesn’t initialize BND registers.
-
-Errors recognized by Analyzer:
+**Errors recognized by Analyzer**:
 ```
  { Errors }
   ERROR_SUCCESS                     : No errors detected.
@@ -137,7 +123,7 @@ Errors recognized by Analyzer:
   ERROR_INTERNAL  					: Internal Error
 ```
 
-Warnings recognized by Analyzer:
+**Warnings recognized by Analyzer**:
 ```
   { Warnings }
   WARN_NIL  { No warnings }
@@ -161,6 +147,6 @@ Warnings recognized by Analyzer:
 
 
 
-Delphinus-Support :
+###Delphinus-Support :
 
 Do you use Delphinus ? You may want to install UnivDisasm from Delphinus.

@@ -85,6 +85,21 @@ ins.Arg3.Mem.BaseReg = REG_RDX
 ...
 ...
 ```
+
+#Command line
+UnivDisasm has a command line tool to disasm sequence of bytes of opcodes.
+
+***Usage***: ```UnivDisasm [<Options>][<OpCodes>...]```
+- **Options**:
+ - -h : Display help.
+ - -v : Vendor = <*Intel,AMD,CENTAUR>.
+ - -x : Architecture = *32 or 64.
+- * means default to this value if not specified.
+- **OpCodes**: Sequence of bytes of opcodes.
+- Note: If you are using hex format, each byte must be preceded by (**0x** or **$**) prefix.
+
+***Eg***: ```UnivDisasm.exe -v intel -x 32 "0x62 0x02 0x95 0x40 0x65 0xF4"```
+  
 #Simple GUI
 A simple graphical user interface (GUI) to list UnivDisasm capability.
 

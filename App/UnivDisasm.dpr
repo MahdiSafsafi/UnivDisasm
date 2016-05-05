@@ -35,14 +35,17 @@ procedure DoHelp();
 begin
   WriteLn( //
     'https://github.com/MahdiSafsafi/UnivDisasm' + #13#10, //
-    'Usage:' + #13#10, //
-    'UnivDisasm [<Options>][<OpCodes>...]' + #13#10, //
+    'Usage: UnivDisasm [<Options>][<OpCodes>...]' + #13#10, //
     'Options:' + #13#10, //
     '-h : Help' + #13#10, //
     '-v : Vendor = <*Intel,AMD,CENTAUR>' + #13#10, //
     '-x : Architecture = *32 or 64' + #13#10, //
     '* means default to this value if not specified.' + #13#10, //
-    'Eg: UnivDisasm.exe -v intel -x 32 "0x62 0x02 0x95 0x40 0x65 0xF4"' + #13#10 //
+    'OpCodes: Sequence of bytes of opcodes.' + #13#10, //
+    'Note: If you are using hex format, each byte must be preceded by (0x|$) prefix.'
+    + #13#10 + #13#10, //
+    'Eg: UnivDisasm.exe -v intel -x 32 "0x62 0x02 0x95 0x40 0x65 0xF4"' + #13#10
+    //
     );
 end;
 

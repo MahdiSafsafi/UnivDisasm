@@ -46,7 +46,9 @@ const
   USO_SHOW_RELATIVE_DISP = $10;
   USO_SHOW_1_DISP = $20;
   USO_SHOW_DISP8 = $40;
-  USO_DEFAULT = USO_SHOW_MEM_SIZE or USO_SHOW_RELATIVE_DISP or USO_ZERO_PADDING or USO_SHOW_DISP8;
+  USO_SHOW_DST_ADDR = $80; // Show branch calculated address.
+  USO_OFFSET_AS_MEM = $100;
+  USO_DEFAULT = USO_OFFSET_AS_MEM or  USO_SHOW_MEM_SIZE or USO_SHOW_RELATIVE_DISP or USO_ZERO_PADDING or USO_SHOW_DISP8 or USO_SHOW_DST_ADDR;
 
 procedure UnivSyntax(PInst: PInstruction);
 function GetUnivSyntaxData: PRegistersData; // {$IFDEF MustInline} inline; {$ENDIF}
@@ -513,6 +515,7 @@ var
   DispValue: Int32;
   Options: UInt32;
   nZ, CPUSize, Scalecc: UInt8;
+  OffsetAsMem: Boolean;
 begin
   if Arg.Flags = 0 then
     Exit;
@@ -523,19 +526,20 @@ begin
   nZ := ZPSel[Options and USO_ZERO_PADDING <> 0];
   Scalecc := ScaleccSel[Options and USO_SHOW_1_DISP <> 0];
   CPUSize := CPUX2Size[PInst^.Arch];
+  OffsetAsMem := (Options and USO_OFFSET_AS_MEM <> 0) and (Arg.Flags and AF_TYPE_MASK = AF_OFFSET);
   if Arg.Flags and AF_TYPE_MASK = AF_REG then
   begin
     S := GetRegName(PInst^.Syntax, Arg.Reg);
     fMoveChars(PInst, S);
   end
-  else if Assigned(PInst^.DstAddr.Addr) then
+  else if (Options and USO_SHOW_DST_ADDR <> 0) and (Assigned(PInst^.DstAddr.Addr)) then
   begin
     if PInst^.DstAddr.Flags and JF_FAR <> 0 then
       fMoveChars(PInst, 'far ');
     fMoveChar(PInst, '@');
     ufIntToHex(UInt64(PInst^.DstAddr.Addr), CPUSize * nZ, PInst);
   end
-  else if Arg.Flags and AF_TYPE_MASK = AF_MEM then
+  else if ((Arg.Flags and AF_TYPE_MASK = AF_MEM) or (OffsetAsMem)) then
   begin
     if Options and USO_SHOW_MEM_SIZE <> 0 then
     begin
@@ -566,50 +570,57 @@ begin
     if (PInst^.Disp.N > 0) and (Options and USO_SHOW_DISP8 <> 0) then
       fMoveChars(PInst, 'disp8');
     fMoveChar(PInst, '[');
-    if (PInst^.Disp.Flags and DF_REL <> 0) and (Options and USO_SHOW_RELATIVE_DISP <> 0) then
+    if OffsetAsMem then
     begin
-      fMoveChars(PInst, AM2XIP[PInst^.AddressMode]);
-      fMoveChar(PInst, ' ');
-    end;
-    if Arg.Mem.BaseReg > 0 then
+      ufIntToHex(Arg.Imm.Value, Arg.Size * nZ, PInst);
+    end
+    else
     begin
-      S := GetRegName(PInst^.Syntax, Arg.Mem.BaseReg);
-      fMoveChars(PInst, S);
-      Sign := '+';
-    end;
-    if Arg.Mem.IndexReg > 0 then
-    begin
-      fMoveChar(PInst, Sign);
-      S := GetRegName(PInst^.Syntax, Arg.Mem.IndexReg);
-      fMoveChars(PInst, S);
-      if Arg.Mem.Scale > Scalecc then
+      if (PInst^.Disp.Flags and DF_REL <> 0) and (Options and USO_SHOW_RELATIVE_DISP <> 0) then
       begin
-        fMoveChar(PInst, '*');
-        fMoveChars(PInst, ScaleToChar[Arg.Mem.Scale]);
+        fMoveChars(PInst, AM2XIP[PInst^.AddressMode]);
+        fMoveChar(PInst, ' ');
       end;
-      Sign := '+';
-    end;
-    if PInst^.Disp.Size > 0 then
-    begin
-      if Sign <> #00 then
+      if Arg.Mem.BaseReg > 0 then
       begin
-        if PInst^.Disp.Value < 0 then
+        S := GetRegName(PInst^.Syntax, Arg.Mem.BaseReg);
+        fMoveChars(PInst, S);
+        Sign := '+';
+      end;
+      if Arg.Mem.IndexReg > 0 then
+      begin
+        fMoveChar(PInst, Sign);
+        S := GetRegName(PInst^.Syntax, Arg.Mem.IndexReg);
+        fMoveChars(PInst, S);
+        if Arg.Mem.Scale > Scalecc then
         begin
-          DispValue := -PInst^.Disp.Value;
-          Sign := '-';
+          fMoveChar(PInst, '*');
+          fMoveChars(PInst, ScaleToChar[Arg.Mem.Scale]);
+        end;
+        Sign := '+';
+      end;
+      if PInst^.Disp.Size > 0 then
+      begin
+        if Sign <> #00 then
+        begin
+          if PInst^.Disp.Value < 0 then
+          begin
+            DispValue := -PInst^.Disp.Value;
+            Sign := '-';
+          end
+          else
+            DispValue := PInst^.Disp.Value;
+          fMoveChar(PInst, Sign);
+          fMoveChars(PInst, '0x');
+          L := fIntToHex(DispValue, PInst^.Disp.Size * nZ, PInst^.InstStr);
+          Inc(PInst^.InstStr, L);
         end
         else
-          DispValue := PInst^.Disp.Value;
-        fMoveChar(PInst, Sign);
-        fMoveChars(PInst, '0x');
-        L := fIntToHex(DispValue, PInst^.Disp.Size * nZ, PInst^.InstStr);
-        Inc(PInst^.InstStr, L);
-      end
-      else
-      begin
-        fMoveChars(PInst, '0x');
-        L := fIntToHex(PInst^.Disp.Value, PInst^.Disp.Size * nZ, PInst^.InstStr);
-        Inc(PInst^.InstStr, L);
+        begin
+          fMoveChars(PInst, '0x');
+          L := fIntToHex(PInst^.Disp.Value, PInst^.Disp.Size * nZ, PInst^.InstStr);
+          Inc(PInst^.InstStr, L);
+        end;
       end;
     end;
     fMoveChar(PInst, ']');
@@ -620,7 +631,7 @@ begin
   begin
     ufIntToHex(Arg.Imm.Value, Arg.Size * nZ, PInst);
   end
-  else if Arg.Flags and AF_TYPE_MASK = AF_OFFSET then
+  else if ((Arg.Flags and AF_TYPE_MASK = AF_OFFSET) and (not OffsetAsMem)) then
   begin
     if Arg.Mem.Seg > 0 then
     begin

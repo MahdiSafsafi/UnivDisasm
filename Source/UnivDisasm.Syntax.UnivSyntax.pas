@@ -47,8 +47,8 @@ const
   USO_SHOW_1_DISP = $20;
   USO_SHOW_DISP8 = $40;
   USO_SHOW_DST_ADDR = $80; // Show branch calculated address.
-  USO_OFFSET_AS_MEM = $100;
-  USO_DEFAULT = USO_OFFSET_AS_MEM or  USO_SHOW_MEM_SIZE or USO_SHOW_RELATIVE_DISP or USO_ZERO_PADDING or USO_SHOW_DISP8 or USO_SHOW_DST_ADDR;
+  USO_OFFSET_AS_MEM = $100; // Offset is treated as memory location.
+  USO_DEFAULT = USO_SHOW_MEM_SIZE or USO_SHOW_RELATIVE_DISP or USO_ZERO_PADDING or USO_SHOW_DISP8 or USO_SHOW_DST_ADDR;
 
 procedure UnivSyntax(PInst: PInstruction);
 function GetUnivSyntaxData: PRegistersData; // {$IFDEF MustInline} inline; {$ENDIF}

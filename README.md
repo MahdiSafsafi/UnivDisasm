@@ -5,8 +5,8 @@
 
 **Features**:
 
-- Support x86 and x86-64 architectures.
-- Support Intel and AMD instructions.
+- Support **x86** and **x86-64** architectures.
+- Support **Intel** and **AMD** instructions.
 - Support mostly all instructions found in Intel and AMD documentations, including:
   * FPU,MMX;
   * SSE,SSE2,SSE3,SSSE3,SSE4.1,SSE4.2,SSE5;
@@ -15,16 +15,22 @@
   * FMA,FMA4;
   * AVX,AVX2;
   * AVX512F, AVX512BW, AVX512CD, AVX512DQ, AVX512ER, AVX512PF, AVX512VBMI, AVX512IFMA.
-- Support REX, DREX, VEX, EVEX and XOP instructions encoding.
-- EFlags/RFlags: UnivDisasm can recognize instructions that may affect, modify or reset EFlags register. 
+- Support **REX, DREX, VEX, EVEX** and **XOP** instructions encoding.
+- EFlags/RFlags: UnivDisasm can recognize instructions that may *affect*, *modify* or *reset* EFlags/RFlags register. 
 - Instructions are grouped into two order: instructions groups and instructions categories.
 - Each instruction has its own identifier make it easy to find and match decoded instructions.
+- Detect instruction's table.
 - Branch instructions: UnivDisasm recognize branch and calculate the destination address, make it easy for you to follow branch instructions. 
-- Support VSIB memory addressing.
-- Support Intel enhancement syntax: Masking, Zeroing, Rounding, Broadcasting.
-- Support the compressed displacement disp8*N.
+- Support **VSIB** memory addressing.
+- Support **Intel enhancement syntax**: 
+ - Masking.
+ - Zeroing.
+ - Rounding.
+ - Broadcasting.
+- Support the compressed displacement **disp8*N**.
 - Reconize pseudo-ops instructions such as CMPPS.
-- Safe: UnivDisasm was designed to be safe, that’s mean it’s safe for multi threads (thread safe).And provides built-in mechanisms for errors and safe bytes reading.
+- Built-in analyzer to recognize warnings and errors.
+- Safe: UnivDisasm was designed to be safe, that’s mean it’s safe for multi threads (**thread safe**).And provides built-in mechanisms for errors and safe bytes reading.
 - Faster: Due to its coding architecture, UnivDisasm is considered to be faster to decode instructions.
 - Customized: UnivDisasm has an open architecture allowing for easy to extend for others syntax. You can have your own assembler syntax with less code writing!
 

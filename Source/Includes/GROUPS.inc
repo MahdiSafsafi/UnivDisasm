@@ -69,14 +69,10 @@ begin
   Dec(P);
   DecodeModRm(PInst);
   case P^ of
-    $80:
-      GRP80Array[PInst^.ModRm.Value.Reg](PInst);
-    $81:
-      GRP81Array[PInst^.ModRm.Value.Reg](PInst);
-    $82:
-      GRP82Array[PInst^.ModRm.Value.Reg](PInst);
-    $83:
-      GRP83Array[PInst^.ModRm.Value.Reg](PInst);
+    $80: GRP80Array[PInst^.ModRm.Value.Reg](PInst);
+    $81: GRP81Array[PInst^.ModRm.Value.Reg](PInst);
+    $82: GRP82Array[PInst^.ModRm.Value.Reg](PInst);
+    $83: GRP83Array[PInst^.ModRm.Value.Reg](PInst);
   end;
 end;
 
@@ -125,12 +121,9 @@ begin
   if PInst^.Encoding = ENC_EVEX then
   begin
     case ModRm.Reg of
-      $02:
-        Decode_AVX512BW_VL_VPSRLW_Hn_K_z_Wn_Ib(PInst);
-      $04:
-        Decode_AVX512BW_VL_VPSRAW_Hn_K_z_Wn_Ib(PInst);
-      $06:
-        Decode_AVX512BW_VL_VPSLLW_Hn_K_z_Wn_Ib(PInst);
+      $02: Decode_AVX512BW_VL_VPSRLW_Hn_K_z_Wn_Ib(PInst);
+      $04: Decode_AVX512BW_VL_VPSRAW_Hn_K_z_Wn_Ib(PInst);
+      $06: Decode_AVX512BW_VL_VPSLLW_Hn_K_z_Wn_Ib(PInst);
     end;
   end
   else if (PInst^.InternalData.MandatoryPrefixes = MND_PRF_66) then
@@ -140,47 +133,35 @@ begin
       if (PInst^.Fields.VL = VL128) then
       begin
         case ModRm.Reg of
-          $02:
-            Decode_AVX_VPSRLW_Ho_Uo_Ib(PInst);
-          $04:
-            Decode_AVX_VPSRAW_Ho_Uo_Ib(PInst);
-          $06:
-            Decode_AVX_VPSLLW_Ho_Uo_Ib(PInst);
+          $02: Decode_AVX_VPSRLW_Ho_Uo_Ib(PInst);
+          $04: Decode_AVX_VPSRAW_Ho_Uo_Ib(PInst);
+          $06: Decode_AVX_VPSLLW_Ho_Uo_Ib(PInst);
         end;
       end
       else if (PInst^.Fields.VL = VL256) then
       begin
         case ModRm.Reg of
-          $02:
-            Decode_AVX2_VPSRLW_Hy_Uy_Ib(PInst);
-          $04:
-            Decode_AVX2_VPSRAW_Hy_Uy_Ib(PInst);
-          $06:
-            Decode_AVX2_VPSLLW_Hy_Uy_Ib(PInst);
+          $02: Decode_AVX2_VPSRLW_Hy_Uy_Ib(PInst);
+          $04: Decode_AVX2_VPSRAW_Hy_Uy_Ib(PInst);
+          $06: Decode_AVX2_VPSLLW_Hy_Uy_Ib(PInst);
         end;
       end;
     end
     else
     begin
       case ModRm.Reg of
-        $02:
-          Decode_SSE2_PSRLW_Uo_Ib(PInst);
-        $04:
-          Decode_SSE2_PSRAW_Uo_Ib(PInst);
-        $06:
-          Decode_SSE2_PSLLW_Uo_Ib(PInst);
+        $02: Decode_SSE2_PSRLW_Uo_Ib(PInst);
+        $04: Decode_SSE2_PSRAW_Uo_Ib(PInst);
+        $06: Decode_SSE2_PSLLW_Uo_Ib(PInst);
       end;
     end;
   end
   else
   begin
     case ModRm.Reg of
-      $02:
-        Decode_MMX_PSRLW_Nq_Ib(PInst);
-      $04:
-        Decode_MMX_PSRAW_Nq_Ib(PInst);
-      $06:
-        Decode_MMX_PSLLW_Nq_Ib(PInst);
+      $02: Decode_MMX_PSRLW_Nq_Ib(PInst);
+      $04: Decode_MMX_PSRAW_Nq_Ib(PInst);
+      $06: Decode_MMX_PSLLW_Nq_Ib(PInst);
     end;
   end;
 end;
@@ -209,12 +190,9 @@ begin
           else
             Decode_AVX512F_VL_VPROLD_Hn_K_z_B32_Wn_Ib(PInst);
         end;
-      $02:
-        Decode_AVX512F_VL_VPSRLD_Hn_K_z_B32_Wn_Ib(PInst);
-      $04:
-        Decode_AVX512F_VL_VPSRAD_Hn_K_z_B32_Wn_Ib(PInst);
-      $06:
-        Decode_AVX512F_VL_VPSLLD_Hn_K_z_B32_Wn_Ib(PInst);
+      $02: Decode_AVX512F_VL_VPSRLD_Hn_K_z_B32_Wn_Ib(PInst);
+      $04: Decode_AVX512F_VL_VPSRAD_Hn_K_z_B32_Wn_Ib(PInst);
+      $06: Decode_AVX512F_VL_VPSLLD_Hn_K_z_B32_Wn_Ib(PInst);
     end;
   end
   else if (PInst^.InternalData.MandatoryPrefixes = MND_PRF_66) then
@@ -224,47 +202,35 @@ begin
       if (PInst^.Fields.VL = VL128) then
       begin
         case ModRm.Reg of
-          $02:
-            Decode_AVX_VPSRLD_Ho_Uo_Ib(PInst);
-          $04:
-            Decode_AVX_VPSRAD_Ho_Uo_Ib(PInst);
-          $06:
-            Decode_AVX_VPSLLD_Ho_Uo_Ib(PInst);
+          $02: Decode_AVX_VPSRLD_Ho_Uo_Ib(PInst);
+          $04: Decode_AVX_VPSRAD_Ho_Uo_Ib(PInst);
+          $06: Decode_AVX_VPSLLD_Ho_Uo_Ib(PInst);
         end;
       end
       else if (PInst^.Fields.VL = VL256) then
       begin
         case ModRm.Reg of
-          $02:
-            Decode_AVX2_VPSRLD_Hy_Uy_Ib(PInst);
-          $04:
-            Decode_AVX2_VPSRAD_Hy_Uy_Ib(PInst);
-          $06:
-            Decode_AVX2_VPSLLD_Hy_Uy_Ib(PInst);
+          $02: Decode_AVX2_VPSRLD_Hy_Uy_Ib(PInst);
+          $04: Decode_AVX2_VPSRAD_Hy_Uy_Ib(PInst);
+          $06: Decode_AVX2_VPSLLD_Hy_Uy_Ib(PInst);
         end;
       end;
     end
     else
     begin
       case ModRm.Reg of
-        $02:
-          Decode_SSE2_PSRLD_Uo_Ib(PInst);
-        $04:
-          Decode_SSE2_PSRAD_Uo_Ib(PInst);
-        $06:
-          Decode_SSE2_PSLLD_Uo_Ib(PInst);
+        $02: Decode_SSE2_PSRLD_Uo_Ib(PInst);
+        $04: Decode_SSE2_PSRAD_Uo_Ib(PInst);
+        $06: Decode_SSE2_PSLLD_Uo_Ib(PInst);
       end;
     end;
   end
   else
   begin
     case ModRm.Reg of
-      $02:
-        Decode_MMX_PSRLD_Nq_Ib(PInst);
-      $04:
-        Decode_MMX_PSRAD_Nq_Ib(PInst);
-      $06:
-        Decode_MMX_PSLLD_Nq_Ib(PInst);
+      $02: Decode_MMX_PSRLD_Nq_Ib(PInst);
+      $04: Decode_MMX_PSRAD_Nq_Ib(PInst);
+      $06: Decode_MMX_PSLLD_Nq_Ib(PInst);
     end;
   end;
 end;
@@ -290,10 +256,8 @@ begin
           if PInst^.Fields.W then
             Decode_AVX512F_VL_VPSLLQ_Hn_K_z_B64_Wn_Ib(PInst);
         end;
-      $03:
-        Decode_AVX512BW_VL_VPSRLDQ_Hn_Wn_Ib(PInst);
-      $07:
-        Decode_AVX512BW_VL_VPSLLDQ_Hn_Wn_Ib(PInst);
+      $03: Decode_AVX512BW_VL_VPSRLDQ_Hn_Wn_Ib(PInst);
+      $07: Decode_AVX512BW_VL_VPSLLDQ_Hn_Wn_Ib(PInst);
     end;
   end
   else
@@ -308,42 +272,30 @@ begin
         if (PInst^.Fields.VL = VL128) then
         begin
           case ModRm.Reg of
-            $02:
-              Decode_AVX_VPSRLQ_Ho_Uo_Ib(PInst);
-            $03:
-              Decode_AVX_VPSRLDQ_Ho_Uo_Ib(PInst);
-            $06:
-              Decode_AVX_VPSLLQ_Ho_Uo_Ib(PInst);
-            $07:
-              Decode_AVX_VPSLLDQ_Ho_Uo_Ib(PInst);
+            $02: Decode_AVX_VPSRLQ_Ho_Uo_Ib(PInst);
+            $03: Decode_AVX_VPSRLDQ_Ho_Uo_Ib(PInst);
+            $06: Decode_AVX_VPSLLQ_Ho_Uo_Ib(PInst);
+            $07: Decode_AVX_VPSLLDQ_Ho_Uo_Ib(PInst);
           end;
         end
         else if (PInst^.Fields.VL = VL256) then
         begin
           case ModRm.Reg of
-            $02:
-              Decode_AVX2_VPSRLQ_Hy_Uy_Ib(PInst);
-            $03:
-              Decode_AVX2_VPSRLDQ_Hy_Uy_Ib(PInst);
-            $06:
-              Decode_AVX2_VPSLLQ_Hy_Uy_Ib(PInst);
-            $07:
-              Decode_AVX2_VPSLLDQ_Hy_Uy_Ib(PInst);
+            $02: Decode_AVX2_VPSRLQ_Hy_Uy_Ib(PInst);
+            $03: Decode_AVX2_VPSRLDQ_Hy_Uy_Ib(PInst);
+            $06: Decode_AVX2_VPSLLQ_Hy_Uy_Ib(PInst);
+            $07: Decode_AVX2_VPSLLDQ_Hy_Uy_Ib(PInst);
           end;
-        end
-        else
-        begin
-          { NO VEX }
-          case ModRm.Reg of
-            $02:
-              Decode_SSE2_PSRLQ_Uo_Ib(PInst);
-            $03:
-              Decode_SSE2_PSRLDQ_Uo_Ib(PInst);
-            $06:
-              Decode_SSE2_PSLLQ_Uo_Ib(PInst);
-            $07:
-              Decode_SSE2_PSLLDQ_Uo_Ib(PInst);
-          end;
+        end;
+      end
+      else
+      begin
+        { NO VEX }
+        case ModRm.Reg of
+          $02: Decode_SSE2_PSRLQ_Uo_Ib(PInst);
+          $03: Decode_SSE2_PSRLDQ_Uo_Ib(PInst);
+          $06: Decode_SSE2_PSLLQ_Uo_Ib(PInst);
+          $07: Decode_SSE2_PSLLDQ_Uo_Ib(PInst);
         end;
       end;
     end
@@ -351,10 +303,8 @@ begin
     begin
       { NO 66 }
       case ModRm.Reg of
-        $02:
-          Decode_MMX_PSRLQ_Nq_Ib(PInst);
-        $06:
-          Decode_MMX_PSLLQ_Nq_Ib(PInst);
+        $02: Decode_MMX_PSRLQ_Nq_Ib(PInst);
+        $06: Decode_MMX_PSLLQ_Nq_Ib(PInst);
       end;
     end;
   end;
@@ -407,26 +357,22 @@ begin
           case PInst^.ModRm.Value.Reg of
             $00:
               begin
-                if PInst^.InternalData.MandatoryPrefixes and MND_PRF_F3 <> 0
-                then
+                if PInst^.InternalData.MandatoryPrefixes and MND_PRF_F3 <> 0 then
                   Decode_SYSTEM_RDFSBASE_Ry(PInst);
               end;
             $01:
               begin
-                if PInst^.InternalData.MandatoryPrefixes and MND_PRF_F3 <> 0
-                then
+                if PInst^.InternalData.MandatoryPrefixes and MND_PRF_F3 <> 0 then
                   Decode_SYSTEM_RDGSBASE_Ry(PInst);
               end;
             $02:
               begin
-                if PInst^.InternalData.MandatoryPrefixes and MND_PRF_F3 <> 0
-                then
+                if PInst^.InternalData.MandatoryPrefixes and MND_PRF_F3 <> 0 then
                   Decode_SYSTEM_WRFSBASE_Ry(PInst);
               end;
             $03:
               begin
-                if PInst^.InternalData.MandatoryPrefixes and MND_PRF_F3 <> 0
-                then
+                if PInst^.InternalData.MandatoryPrefixes and MND_PRF_F3 <> 0 then
                   Decode_SYSTEM_WRGSBASE_Ry(PInst);
               end;
             $05:
@@ -469,19 +415,14 @@ begin
   Dec(P);
   DecodeModRm(PInst);
   case P^ of
-    $18:
-      GRP16_18_Array[PInst^.ModRm.Value.Reg](PInst);
-    $19:
-      Decode_INSX_HINT_NOP_Ev(PInst);
+    $18: GRP16_18_Array[PInst^.ModRm.Value.Reg](PInst);
+    $19: Decode_INSX_HINT_NOP_Ev(PInst);
     $1A:
       begin
         case PInst^.InternalData.MandatoryPrefixes of
-          MND_PRF_NA:
-            Decode_MPX_BNDLDX_rB_Mib(PInst);
-          MND_PRF_F2:
-            Decode_MPX_BNDCU_rB_Ey(PInst);
-          MND_PRF_F3:
-            Decode_MPX_BNDCL_rB_Ey(PInst);
+          MND_PRF_NA: Decode_MPX_BNDLDX_rB_Mib(PInst);
+          MND_PRF_F2: Decode_MPX_BNDCU_rB_Ey(PInst);
+          MND_PRF_F3: Decode_MPX_BNDCL_rB_Ey(PInst);
           MND_PRF_66:
             begin
               if PInst^.ModRm.Value.IsMem then
@@ -494,12 +435,9 @@ begin
     $1B:
       begin
         case PInst^.InternalData.MandatoryPrefixes of
-          MND_PRF_NA:
-            Decode_MPX_BNDSTX_Mib_rB(PInst);
-          MND_PRF_F2:
-            Decode_MPX_BNDCN_rB_Ey(PInst);
-          MND_PRF_F3:
-            Decode_MPX_BNDMK_rB_My(PInst);
+          MND_PRF_NA: Decode_MPX_BNDSTX_Mib_rB(PInst);
+          MND_PRF_F2: Decode_MPX_BNDCN_rB_Ey(PInst);
+          MND_PRF_F3: Decode_MPX_BNDMK_rB_My(PInst);
           MND_PRF_66:
             begin
               if PInst^.ModRm.Value.IsMem then
@@ -689,18 +627,12 @@ begin
   Dec(P);
   DecodeModRm(PInst);
   case P^ of
-    $C0:
-      GRP2_C0_Array[PInst^.ModRm.Value.Reg](PInst);
-    $C1:
-      GRP2_C1_Array[PInst^.ModRm.Value.Reg](PInst);
-    $D0:
-      GRP2_D0_Array[PInst^.ModRm.Value.Reg](PInst);
-    $D1:
-      GRP2_D1_Array[PInst^.ModRm.Value.Reg](PInst);
-    $D2:
-      GRP2_D2_Array[PInst^.ModRm.Value.Reg](PInst);
-    $D3:
-      GRP2_D3_Array[PInst^.ModRm.Value.Reg](PInst);
+    $C0: GRP2_C0_Array[PInst^.ModRm.Value.Reg](PInst);
+    $C1: GRP2_C1_Array[PInst^.ModRm.Value.Reg](PInst);
+    $D0: GRP2_D0_Array[PInst^.ModRm.Value.Reg](PInst);
+    $D1: GRP2_D1_Array[PInst^.ModRm.Value.Reg](PInst);
+    $D2: GRP2_D2_Array[PInst^.ModRm.Value.Reg](PInst);
+    $D3: GRP2_D3_Array[PInst^.ModRm.Value.Reg](PInst);
   end;
 end;
 
@@ -735,10 +667,8 @@ begin
   Dec(P);
   DecodeModRm(PInst);
   case P^ of
-    $F6:
-      GRP3_F6_Array[PInst^.ModRm.Value.Reg](PInst);
-    $F7:
-      GRP3_F7_Array[PInst^.ModRm.Value.Reg](PInst);
+    $F6: GRP3_F6_Array[PInst^.ModRm.Value.Reg](PInst);
+    $F7: GRP3_F7_Array[PInst^.ModRm.Value.Reg](PInst);
   end;
 end;
 
@@ -838,66 +768,36 @@ begin
   P := PInst^.NextInst;
   DecodeModRm(PInst);
   case P^ of
-    $C1:
-      Decode_VME_VMCALL_void(PInst);
-    $C2:
-      Decode_VME_VMLAUNCH_void(PInst);
-    $C3:
-      Decode_VME_VMRESUME_void(PInst);
-    $C4:
-      Decode_VME_VMXOFF_void(PInst);
-    $C8:
-      Decode_SSE3_MONITOR_void(PInst);
-    $C9:
-      Decode_SSE3_MWAIT_void(PInst);
-    $CA:
-      Decode_SYSTEM_CLAC_void(PInst);
-    $CB:
-      Decode_SYSTEM_STAC_void(PInst);
-    $CF:
-      Decode_INSX_ENCLS_void(PInst);
-    $D0:
-      Decode_SYSTEM_XGETBV_void(PInst);
-    $D1:
-      Decode_SYSTEM_XSETBV_void(PInst);
-    $D4:
-      Decode_VME_VMFUNC_void(PInst);
-    $D5:
-      Decode_TSX_XEND_void(PInst);
-    $D6:
-      Decode_TSX_XTEST_void(PInst);
-    $D7:
-      Decode_INSX_ENCLU_void(PInst);
-    $D8:
-      Decode_VME_VMRUN_void(PInst);
-    $D9:
-      Decode_VME_VMMCALL_void(PInst);
-    $DA:
-      Decode_VME_VMLOAD_void(PInst);
-    $DB:
-      Decode_VME_VMSAVE_void(PInst);
-    $DC:
-      Decode_INSX_STGI_void(PInst);
-    $DD:
-      Decode_INSX_CLGI_void(PInst);
-    $DE:
-      Decode_INSX_SKINIT_void(PInst);
-    $DF:
-      Decode_INSX_INVLPGA_void(PInst);
-    $EE:
-      Decode_INSX_RDPKRU_void(PInst);
-    $EF:
-      Decode_INSX_WRPKRU_void(PInst);
-    $F8:
-      Decode_GP_SWAPGS_void(PInst);
-    $F9:
-      Decode_SYSTEM_RDTSCP_void(PInst);
-    $FA:
-      Decode_INSX_MONITORX_void(PInst);
-    $FB:
-      Decode_INSX_MWAITX_void(PInst);
-    $FC:
-      Decode_INSX_CLZERO_void(PInst);
+    $C1: Decode_VME_VMCALL_void(PInst);
+    $C2: Decode_VME_VMLAUNCH_void(PInst);
+    $C3: Decode_VME_VMRESUME_void(PInst);
+    $C4: Decode_VME_VMXOFF_void(PInst);
+    $C8: Decode_SSE3_MONITOR_void(PInst);
+    $C9: Decode_SSE3_MWAIT_void(PInst);
+    $CA: Decode_SYSTEM_CLAC_void(PInst);
+    $CB: Decode_SYSTEM_STAC_void(PInst);
+    $CF: Decode_INSX_ENCLS_void(PInst);
+    $D0: Decode_SYSTEM_XGETBV_void(PInst);
+    $D1: Decode_SYSTEM_XSETBV_void(PInst);
+    $D4: Decode_VME_VMFUNC_void(PInst);
+    $D5: Decode_TSX_XEND_void(PInst);
+    $D6: Decode_TSX_XTEST_void(PInst);
+    $D7: Decode_INSX_ENCLU_void(PInst);
+    $D8: Decode_VME_VMRUN_void(PInst);
+    $D9: Decode_VME_VMMCALL_void(PInst);
+    $DA: Decode_VME_VMLOAD_void(PInst);
+    $DB: Decode_VME_VMSAVE_void(PInst);
+    $DC: Decode_INSX_STGI_void(PInst);
+    $DD: Decode_INSX_CLGI_void(PInst);
+    $DE: Decode_INSX_SKINIT_void(PInst);
+    $DF: Decode_INSX_INVLPGA_void(PInst);
+    $EE: Decode_INSX_RDPKRU_void(PInst);
+    $EF: Decode_INSX_WRPKRU_void(PInst);
+    $F8: Decode_GP_SWAPGS_void(PInst);
+    $F9: Decode_SYSTEM_RDTSCP_void(PInst);
+    $FA: Decode_INSX_MONITORX_void(PInst);
+    $FB: Decode_INSX_MWAITX_void(PInst);
+    $FC: Decode_INSX_CLZERO_void(PInst);
   else
     begin
       if PInst^.ModRm.Value.IsMem then
@@ -933,8 +833,7 @@ begin
   if PInst^.ModRm.Value.IsMem then
   begin
     case PInst^.ModRm.Value.Reg of
-      $00:
-        Decode_INVALID(PInst);
+      $00: Decode_INVALID(PInst);
       $01:
         begin
           if PInst^.Fields.W then
@@ -942,37 +841,28 @@ begin
           else
             Decode_GP_CMPXCHG8B_Mq(PInst);
         end;
-      $02:
-        Decode_INSX_XRSTORS_M(PInst);
-      $03:
-        Decode_INSX_XSAVEC_M(PInst);
-      $04:
-        Decode_INSX_XSAVES_M(PInst);
-      $05:
-        Decode_INVALID(PInst);
+      $02: Decode_INSX_XRSTORS_M(PInst);
+      $03: Decode_INSX_XSAVEC_M(PInst);
+      $04: Decode_INSX_XSAVES_M(PInst);
+      $05: Decode_INVALID(PInst);
       $06:
         begin
           if PInst^.InternalData.MandatoryPrefixes and MND_PRF_66 <> 0 then
             Decode_VME_VMCLEAR_Mq(PInst)
           else if PInst^.InternalData.MandatoryPrefixes and MND_PRF_F3 <> 0 then
             Decode_VME_VMXON_Mq(PInst)
-          else if PInst^.InternalData.MandatoryPrefixes and MND_PRF_NA = MND_PRF_NA
-          then
+          else if PInst^.InternalData.MandatoryPrefixes and MND_PRF_NA = MND_PRF_NA then
             Decode_VME_VMPTRLD_Mq(PInst);
         end;
-      $07:
-        Decode_VME_VMPTRST_Mq(PInst);
+      $07: Decode_VME_VMPTRST_Mq(PInst);
     end;
   end
   else
   begin
     case PInst^.ModRm.Value.Reg of
-      $06:
-        Decode_GP_RDRAND_Rv(PInst);
-      $07:
-        Decode_GP_RDSEED_Rv(PInst);
-    else
-      Decode_INVALID(PInst);
+      $06: Decode_GP_RDRAND_Rv(PInst);
+      $07: Decode_GP_RDSEED_Rv(PInst);
+    else Decode_INVALID(PInst);
     end;
   end;
 end;

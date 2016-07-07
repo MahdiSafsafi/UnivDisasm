@@ -445,14 +445,14 @@ begin
   PInst^.Arg1.Flags := AF_ADDRESS;
   PInst^.Arg1.Size := (SIZE_WORD + PInst^.InternalData.OpSizeZ);
   PInst^.Arg1.Imm.Size := SIZE_WORD;
-  PInst^.Arg1.Imm.Value := PUInt16(PInst^.NextInst)^;
+  PInst^.Arg1.Imm.Value := PInt16(PInst^.NextInst)^;
   if not PInst^.Next(SIZE_WORD) then
     Exit;
   Size := PInst^.InternalData.OpSizeZ;
   PInst^.Arg1.ImmEx.Size := Size;
   case Size of
-    SIZE_WORD: PInst^.Arg1.ImmEx.Value := PUInt16(PInst^.NextInst)^;
-    SIZE_DWORD: PInst^.Arg1.ImmEx.Value := PUInt32(PInst^.NextInst)^;
+    SIZE_WORD: PInst^.Arg1.ImmEx.Value := PInt16(PInst^.NextInst)^;
+    SIZE_DWORD: PInst^.Arg1.ImmEx.Value := PInt32(PInst^.NextInst)^;
   else PInst^.Error(ERROR_INVALID_OPERAND_SIZE);
   end;
   PInst^.Next(Size);
@@ -602,10 +602,10 @@ end;
 procedure DecodeArgAsImm(PInst: PInstruction; var Arg: TArgument; Size: Byte);
 begin
   case Size of
-    SIZE_BYTE: Arg.Imm.Value := PUInt8(PInst^.NextInst)^;
-    SIZE_WORD: Arg.Imm.Value := PUInt16(PInst^.NextInst)^;
-    SIZE_DWORD: Arg.Imm.Value := PUInt32(PInst^.NextInst)^;
-    SIZE_QWORD: Arg.Imm.Value := PUInt64(PInst^.NextInst)^;
+    SIZE_BYTE: Arg.Imm.Value := PInt8(PInst^.NextInst)^;
+    SIZE_WORD: Arg.Imm.Value := PInt16(PInst^.NextInst)^;
+    SIZE_DWORD: Arg.Imm.Value := PInt32(PInst^.NextInst)^;
+    SIZE_QWORD: Arg.Imm.Value := PInt64(PInst^.NextInst)^;
   end;
   PInst^.Next(Size);
   Arg.Imm.Size := Size;

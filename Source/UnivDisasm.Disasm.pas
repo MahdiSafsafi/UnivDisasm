@@ -136,7 +136,7 @@ type
   PMemory = ^TMemory;
 
   TImmediate = record
-    Value: UInt64; // Immediate value.
+    Value: Int64;
     Size: Byte; // Immediate size.
   end;
 
@@ -266,6 +266,8 @@ type
     function IsOpcVPrefix: Boolean;
     procedure SetSp(Sp: Integer);
   public
+    class function Create: TInstruction; static;
+    procedure Free;
     function Next(const Size: UInt8 = 1): Boolean;
     function IsIA64: Boolean;
     procedure SetTable(Table: Byte);
@@ -431,13 +433,15 @@ begin
   if (F and PF_USED <> 0) and (F and (PF_MANDATORY or PF_VALID) = 0) then
   begin
     case F and PF_TYPE_MASK of
-      PF_BND: PInst^.Warn(WARN_BND_NO_INIT);
+      PF_BND:
+        PInst^.Warn(WARN_BND_NO_INIT);
       PF_XAQUIRE:
         begin
           if PInst^.Warnings and WARN_XAQUIRE_NEED_LOCK = 0 then
             PInst^.Warn(WARN_XAQUIRE_INVALID);
         end;
-      PF_REPNE: PInst^.Warn(WARN_REPNE_INVALID);
+      PF_REPNE:
+        PInst^.Warn(WARN_REPNE_INVALID);
     end;
   end;
   F := PInst^.Prefixes.F3Prf.Flags;
@@ -449,8 +453,10 @@ begin
           if PInst^.Warnings and WARN_XRELEASE_NEED_LOCK = 0 then
             PInst^.Warn(WARN_XRELEASE_INVALID);
         end;
-      PF_REP: PInst^.Warn(WARN_REP_INVALID);
-      PF_REPE: PInst^.Warn(WARN_REPE_INVALID);
+      PF_REP:
+        PInst^.Warn(WARN_REP_INVALID);
+      PF_REPE:
+        PInst^.Warn(WARN_REPE_INVALID);
     end;
   end;
 end;
@@ -492,6 +498,19 @@ begin
 end;
 
 { TInstruction }
+
+class function TInstruction.Create: TInstruction;
+begin
+  Result := default (TInstruction);
+end;
+
+procedure TInstruction.Free;
+begin
+  if Assigned(Self.Mnem) then
+    FreeMem(Self.Mnem);
+  if Assigned(Self.InstStr) then
+    FreeMem(Self.InstStr);
+end;
 
 function TInstruction.IsIA64: Boolean;
 begin
@@ -622,17 +641,28 @@ begin
   else
     CPUSize := SIZE_DWORD;
   case RegType of
-    REGS_GP: Exit(RegSize);
-    REGS_SEG: Exit(SIZE_WORD);
-    REGS_FPU: Exit(SIZE_QWORD);
-    REGS_MMX: Exit(SIZE_QWORD);
-    REGS_XMM: Exit(SIZE_OWORD);
-    REGS_YMM: Exit(SIZE_YWORD);
-    REGS_ZMM: Exit(SIZE_ZWORD);
-    REGS_MASK: Exit(SIZE_QWORD);
-    REGS_BND: Exit(SIZE_OWORD);
-    REGS_DBG, REGS_CNTRL: Exit(CPUSize);
-    REGS_TAB: Exit(SIZE_WORD);
+    REGS_GP:
+      Exit(RegSize);
+    REGS_SEG:
+      Exit(SIZE_WORD);
+    REGS_FPU:
+      Exit(SIZE_QWORD);
+    REGS_MMX:
+      Exit(SIZE_QWORD);
+    REGS_XMM:
+      Exit(SIZE_OWORD);
+    REGS_YMM:
+      Exit(SIZE_YWORD);
+    REGS_ZMM:
+      Exit(SIZE_ZWORD);
+    REGS_MASK:
+      Exit(SIZE_QWORD);
+    REGS_BND:
+      Exit(SIZE_OWORD);
+    REGS_DBG, REGS_CNTRL:
+      Exit(CPUSize);
+    REGS_TAB:
+      Exit(SIZE_WORD);
   end;
   Result := 00;
 end;

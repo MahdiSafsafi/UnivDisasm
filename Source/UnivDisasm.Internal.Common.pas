@@ -199,9 +199,7 @@ begin
         begin
           if VLSize = VL512 then
             N := SIZE_32_BYTE;
-        end
-        else
-        begin
+        end else begin
           if VLSize > VL128 then
             N := SIZE_16_BYTE;
         end;
@@ -356,9 +354,11 @@ begin
 end;
 
 procedure DecodeBranch_Ev(PInst: PInstruction);
+{ TODO: Remove DS and compute address when segment is not DS. }
 var
   VA, P: PByte;
   F: Word;
+  DS: Word;
 begin
   F := PInst^.DstAddr.Flags or JF_USED or JF_ABSOLUTE or JF_INDIRECT or JF_NEAR;
   DecodeModRm(PInst);
@@ -367,12 +367,10 @@ begin
   if PInst^.ModRm.Value.IsMem then
   begin
     DecodeArgAsMem(PInst, PInst^.Arg1);
-  end
-  else
-  begin
+  end else begin
     PInst^.Arg1.Reg := (REGS_GP or (PInst^.InternalData.OpSizeV shl 8) or PInst^.ModRm.Value.Rm or PInst^.Fields.B);
   end;
-
+  DS := SegOrDef(PInst, SEG_DS);
   if Assigned(PInst^.VirtualAddr) then
     VA := PInst^.VirtualAddr + (PInst^.NextInst - PInst^.Addr)
   else
@@ -399,37 +397,39 @@ begin
 
       end;
       P := VA + Int32(PInst^.Disp.Value);
-      try
-        { Since UnivDisasm can disassemble from anywere (memory,disk,..)
-          User may provide wrong address !!
-          ==> So we must use try to access memory !!!
-        }
-        P := PByte(PUInt64(P)^);
-      except
-        P := nil;
-        PInst^.Error(ERROR_INVALID_EFFECTIVE_ADDRESS);
-      end;
-      PInst^.DstAddr.Addr := P;
-    end
-    else
-    begin
-      { No EIP/RIP }
-      P := PByte(PInst^.Disp.Value);
-      try
-        case PInst^.AddressMode of
-          AM_16: P := PByte(PUInt16(P)^);
-          AM_32: P := PByte(PUInt32(P)^);
-        else PInst^.Error(ERROR_INVALID_ADDRESS_MODE);
+      if DS = SEG_DS then
+      begin
+        try
+          { Since UnivDisasm can disassemble from anywere (memory,disk,..)
+            User may provide wrong address !!
+            ==> So we must use try to access memory !!!
+          }
+          P := PByte(PUInt64(P)^);
+        except
+          P := nil;
+          PInst^.Error(ERROR_INVALID_EFFECTIVE_ADDRESS);
         end;
-      except
-        P := nil;
-        PInst^.Error(ERROR_INVALID_EFFECTIVE_ADDRESS);
+        PInst^.DstAddr.Addr := P;
       end;
-      PInst^.DstAddr.Addr := P;
+    end else begin
+      { No EIP/RIP }
+      if DS = SEG_DS then
+      begin
+        P := PByte(PInst^.Disp.Value);
+        try
+          case PInst^.AddressMode of
+            AM_16: P := PByte(PUInt16(P)^);
+            AM_32: P := PByte(PUInt32(P)^);
+          else PInst^.Error(ERROR_INVALID_ADDRESS_MODE);
+          end;
+        except
+          P := nil;
+          PInst^.Error(ERROR_INVALID_EFFECTIVE_ADDRESS);
+        end;
+        PInst^.DstAddr.Addr := P;
+      end;
     end;
-  end
-  else
-  begin
+  end else begin
     { JMP/CALL [REG] }
     F := F or JF_REG;
     PInst^.DstAddr.Addr := nil;
@@ -531,9 +531,7 @@ begin
         Arg.Mem.IndexReg := RegType or Sib.Index or PInst^.Fields.X;
       Arg.Mem.Scale := Sib.Scale;
     end;
-  end
-  else
-  begin
+  end else begin
     if F and MF_BASE <> 0 then
     begin
       Arg.Mem.BaseReg := RegType or PInst^.ModRm.Value.Rm or PInst^.Fields.B;
@@ -635,9 +633,7 @@ begin
         -near jmp.
         -near call && ret. }
       F := F or PF_VALID;
-    end
-    else
-    begin
+    end else begin
       PInst^.Warn(WARN_BND_NO_INIT);
     end;
   end;

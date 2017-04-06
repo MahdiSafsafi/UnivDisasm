@@ -53,7 +53,7 @@ begin
       LogMem.Lines.Add(Format('@@Addr_%p:', [ins.Addr]));
     P := ins.NextInst;
 
-    LogMem.Lines.Add(ins.InstStr);
+    LogMem.Lines.Add(string(ins.InstStr));
     if ins.InstID = INST_ID_RET then
       break;
   end;

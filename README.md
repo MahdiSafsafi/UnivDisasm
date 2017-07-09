@@ -1,7 +1,8 @@
-#UnivDisasm
+# UnivDisasm
+
 **UnivDisasm** is a powerful x86 disassembler and opcodes analyzer library for x86 architectures.
 
-#Disassembler
+# Disassembler
 
 **Features**:
 
@@ -92,7 +93,7 @@ ins.Arg3.Mem.BaseReg = REG_RDX
 ...
 ```
 
-#Command line
+# Command line
 UnivDisasm has a command line tool to disasm sequence of bytes of opcodes.
 
 ***Usage***: ```UnivDisasm [<Options>][<OpCodes>...]```
@@ -106,12 +107,12 @@ UnivDisasm has a command line tool to disasm sequence of bytes of opcodes.
 
 ***Eg***: ```UnivDisasm.exe -v intel -x 32 "0x62 0x02 0x95 0x40 0x65 0xF4"```
   
-#Simple GUI
+# Simple GUI
 A simple graphical user interface (GUI) to list UnivDisasm capability.
 
 ![GUI](https://raw.githubusercontent.com/MahdiSafsafi/UnivDisasm/master/GUI/GUI.PNG)
 
-#Analyzer
+# Analyzer
 
 UnivDisasm has a powerful analyzer, make it easy to find errors and detect for warnings.
 
@@ -168,6 +169,6 @@ UnivDisasm has a powerful analyzer, make it easy to find errors and detect for w
 
 
 
-###Delphinus-Support :
+### Delphinus-Support :
 
 Do you use Delphinus ? You may want to install UnivDisasm from Delphinus.
